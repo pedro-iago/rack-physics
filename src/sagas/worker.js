@@ -1,6 +1,6 @@
 import {take, put, call} from 'redux-saga';
-import {spawn, init, subscribe, step, hydrate, terminate} from '../actions/worker';
-import {SPAWN, INIT, SUBSCRIBE, STEP, HYDRATE, TERMINATE} from '../Macros';
+import {spawn, init, subscribe, step, terminate} from '../actions/worker';
+import {SPAWN, INIT, SUBSCRIBE, STEP, TERMINATE} from '../Macros';
 import {QUEUE} from '../middleware/taskMiddleware';
 import {message, broadcast} from '../api';
 import pick from 'lodash.pick';
@@ -55,19 +55,13 @@ function* fetchTerminate( workers ){
 function* loopCycle( getWorkers, getObjects ){
   while(true){
     const [workers, objects] = [getWorkers(), getObjects()];
-    yield call(fetchStep, workers);
-    yield call(fetchHydrate, workers, objects);
+    yield call(fetchStep, workers, objects);
   }
 }
 
-function* fetchStep( workers ){
-  const {payload: objects} = yield call(broadcast, workers, {type: STEP});
-  yield put( step(objects) );
-}
-
-function* fetchHydrate( workers, objects ){
-  yield call(broadcast, workers, {type: HYDRATE, payload: objects});
-  yield put( hydrate(objects) );
+function* fetchStep( workers, objects ){
+  const {payload: nextObjects} = yield call(broadcast, workers, {type: STEP, payload: objects});
+  yield put( step(nextObjects) );
 }
 
 export default root;

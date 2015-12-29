@@ -40,9 +40,6 @@ self.onmessage = function (e) {
     case TYPE.STEP:
       result = STEP(input);
     break;
-    case TYPE.HYDRATE:
-      result = HYDRATE(input);
-    break;
   }
   self.postMessage({type, meta: myKey, payload: result});
 }
@@ -82,7 +79,8 @@ function SUBSCRIBE(objects){
 //   WORLD UPDATE
 //--------------------------------------------------
 
-var STEP = function(){
+var STEP = function(objects){
+  //TODO: figure out a way of using these objects instead (they could pottentially have changes over my step version)
   world.step();
   let payload = {};
   for (const body of bodies) {
@@ -98,13 +96,6 @@ var STEP = function(){
     payload = { ...payload, [joint.name]: {anchors: [ap1, ap2]} };
   }
   return payload;
-}
-
-//--------------------------------------------------
-//    HYDRATE STATE FROM VIEW
-//--------------------------------------------------
-
-var HYDRATE = function(){
 }
 
 //--------------------------------------------------

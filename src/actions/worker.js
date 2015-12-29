@@ -1,4 +1,4 @@
-import {SPAWN, INIT, SUBSCRIBE, STEP, HYDRATE, TERMINATE} from '../Macros';
+import {SPAWN, INIT, SUBSCRIBE, STEP, TERMINATE} from '../Macros';
 
 export function spawn( creators ){
   return {
@@ -24,13 +24,6 @@ export function subscribe( objects ){
 export function step( objects ){
   return {
     type: STEP,
-    payload: objects
-  };
-}
-
-export function hydrate( objects ){
-  return {
-    type: HYDRATE,
     payload: objects
   };
 }

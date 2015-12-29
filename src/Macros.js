@@ -18,10 +18,9 @@ export const SPAWN = 'SPAWN';
 export const INIT = 'INIT';
 export const SUBSCRIBE = 'SUBSCRIBE';
 export const STEP = 'STEP';
-export const HYDRATE = 'HYDRATE';
 export const TERMINATE = 'TERMINATE';
 
 export const BODIES = [BOX, SPHERE, CYLINDER];
 export const JOINTS = [JOINT_DISTANCE, JOINT_BALL_AND_SOCKET, JOINT_HINGE, JOINT_WHEEL, JOINT_SLIDER, JOINT_PRISMATIC];
 export const OBJECTS = [...BODIES, ...JOINTS];
-export const ACTIONS = [SPAWN, INIT, SUBSCRIBE, STEP, HYDRATE, TERMINATE];
+export const ACTIONS = [SPAWN, INIT, SUBSCRIBE, STEP, TERMINATE];
