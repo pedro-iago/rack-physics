@@ -1,0 +1,47 @@
+{
+  "name": "oimo-rack",
+  "version": "1.0.0",
+  "description": "RACK (Robotics Automated Control Kickoff) is a sharing platform running a live 3D physics engine (oimo)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Robotics",
+    "redux",
+    "react-three-renderer"
+  ],
+  "author": "Pedro Iago Carvalho Martins <pedro.m4rtins@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cannon": "^0.6.2",
+    "lodash.mapvalues": "^3.0.1",
+    "lodash.merge": "^3.3.2",
+    "lodash.omit": "^3.1.0",
+    "lodash.pick": "^3.1.0",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-redux": "^4.0.1",
+    "react-three-renderer": "0.0.11-alpha",
+    "redux": "^3.0.4",
+    "redux-devtools": "^3.0.0",
+    "redux-devtools-dock-monitor": "^1.0.1",
+    "redux-devtools-log-monitor": "^1.0.1",
+    "redux-saga": "^0.3.1",
+    "redux-slider-monitor": "^1.0.0",
+    "three.js": "^0.73.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.29",
+    "babel-loader": "^5.3.3",
+    "babel-runtime": "^6.3.19",
+    "express": "^4.13.3",
+    "react-addons-perf": "^0.14.2",
+    "react-hot-loader": "^1.3.0",
+    "socket.io": "^1.3.7",
+    "webpack": "^1.12.3",
+    "webpack-dev-server": "^1.12.1",
+    "worker-loader": "^0.7.0"
+  }
+}
