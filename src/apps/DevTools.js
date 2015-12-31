@@ -4,6 +4,7 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 import LogMonitor from 'redux-devtools-log-monitor';
 import SliderMonitor from 'redux-slider-monitor';
 
+//TODO: filter monitor on those queues!
 export default
   createDevTools(
     <DockMonitor

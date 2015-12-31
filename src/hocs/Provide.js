@@ -2,13 +2,14 @@ import React, {Component, PropTypes as _} from 'react';
 import {applyMiddleware, createStore, combineReducers, compose} from 'redux';
 import {persistState} from 'redux-devtools';
 import sagaMiddleware from 'redux-saga';
-import {taskMiddleware} from '../middleware';
+import taskMiddleware, {TaskReducer} from '../middleware/taskMiddleware';
 import DevTools from '../apps/DevTools';
 import * as reducers from '../reducers';
 import sagas from '../sagas';
 import {wrapDisplayName} from "../utils/HocUtils";
 
-const reducer = combineReducers(reducers);
+//maybe enhance reducer here with TaskReducer
+const reducer = combineReducers({...reducers, TaskReducer});
 const finalCreateStore = compose(
   applyMiddleware( taskMiddleware ),
   applyMiddleware( sagaMiddleware(...sagas) ),
