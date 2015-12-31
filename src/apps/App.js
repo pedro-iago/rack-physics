@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     return (
       <div id = "App">
-        <DevTools/>
+        {/*<DevTools/>*/}
         <ThreeApp>
           <World
             name = "Paradim"

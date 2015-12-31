@@ -25,6 +25,11 @@ class ThreeApp extends Component {
     }));
     this.controls = controls;
   }
+  //animation frame is blocking sagas since is being called too many times
+  //however, when I open chrome timeline, the cpu wants to show off and runs at 100%
+  //and what happens is that, usually, for each frame I get one run in the sagas (ideal case)
+  //how to force the cpu to always run at 100%? is that even the true reason it's faster?
+  //why request animation frame it's 5x times slower when I got the devtools on? quite unexpected...
   _onAnimate = () => {
     this.props.dispatch( step() );
     this.controls.update();
