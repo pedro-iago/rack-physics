@@ -1,13 +1,23 @@
 import merge from 'lodash.merge';
 import message from './message';
 
-async function broadcast(hash, data){
-  const targets = Object.values(hash);
-  const responses = await* targets.map( async (target) => await message(target, data) );
-  const type = data.type;
-  const meta = responses.map( (response) => response.meta );
-  const payload = merge( {}, ...responses.map( (response) => response.payload ) );
-  return { type, meta, payload };
+//it looks that it is not time for async now...
+//also, deep merge suucks
+function broadcast(hashTargets, data){
+  return new Promise((resolve, reject) => Promise.all(Object.values(hashTargets).map((target) => message(target, data))).then((responses) => {
+    const type = data.type;
+    const meta = responses.map( (response) => response.meta );
+
+    let payload = {};
+    for(const response of responses){
+      for(const key in response.payload){
+        payload[key] = {...payload[key], ...response.payload[key]};
+      }
+    }
+    //const payload = merge( {}, ...responses.map( (response) => response.payload ) );
+
+    resolve({ type, meta, payload });
+  }).catch((err) => reject(err)));
 }
 
 export default broadcast;
