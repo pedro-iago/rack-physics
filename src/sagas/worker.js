@@ -10,27 +10,20 @@ function* root( getState ){
   const getWorkers = () => getState().WorkReducer;
   const getObjects = () => getState().ViewReducer;
   const getTasks = () => getState().TaskReducer;
-  yield [
-    call(loopTasks, getWorkers, getTasks),
-    call(loopCycle, getWorkers, getObjects)
-  ];
-}
-
-function* loopTasks( getWorkers, getTasks ){
   while(true){
     yield take(QUEUE);
-    const tasks = getTasks();
-    for(const {type, payload} of tasks){switch(type){
+    for(const {type, payload} of getTasks()){switch(type){
       case SPAWN:  yield call(fetchSpawn, payload);  break;
       case INIT:  yield call(fetchInit, getWorkers(), payload);  break;
       case SUBSCRIBE:  yield call(fetchSubscribe, getWorkers(), payload);  break;
+      case STEP:  yield call(fetchStep, getWorkers(), getObjects());  break;
       case TERMINATE:  yield call(fetchTerminate, pick(getWorkers(), payload));  break;
     }};
   }
 }
 
 function* fetchSpawn( creators ){
-  const workers = mapValues(creators, creator => creator());
+  const workers = yield call(mapValues, creators, creator => creator());
   for(const key in workers)
     yield call(message, workers[key], {type: SPAWN, meta: key});
   yield put( spawn(workers) );
@@ -46,22 +39,15 @@ function* fetchSubscribe( workers, objects ){
   yield put( subscribe(objects) );
 }
 
-function* fetchTerminate( workers ){
-  for(const key in workers)
-    workers[key].terminate();
-  yield put( terminate(Object.keys(workers)) );
-}
-
-function* loopCycle( getWorkers, getObjects ){
-  while(true){
-    const [workers, objects] = [getWorkers(), getObjects()];
-    yield call(fetchStep, workers, objects);
-  }
-}
-
 function* fetchStep( workers, objects ){
   const {payload: nextObjects} = yield call(broadcast, workers, {type: STEP, payload: objects});
   yield put( step(nextObjects) );
+}
+
+function* fetchTerminate( workers ){
+  for(const key in workers)
+    yield call(() => workers[key].terminate());
+  yield put( terminate(Object.keys(workers)) );
 }
 
 export default root;

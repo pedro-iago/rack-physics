@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { store } from '../hocs/Provide';
-import { Custom } from '../containers';
+import { Provide } from '../hocs';
 import World, { Body, Joint } from '../containers/World';
 import * as TYPE from '../Macros';
 import { ThreeApp, DevTools } from './index';
 
-export default class App extends Component {
+@Provide
+class App extends Component {
   _randomBoxes(ammount){
     let specs = [];
     for(let i = 0; i<ammount; i++){
@@ -22,7 +22,7 @@ export default class App extends Component {
   render() {
     return (
       <div id = "App">
-        <DevTools store = {store}/>
+        <DevTools/>
         <ThreeApp>
           <World
             name = "Paradim"
@@ -52,3 +52,5 @@ export default class App extends Component {
     );
   }
 };
+
+export default App;

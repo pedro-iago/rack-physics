@@ -2,8 +2,11 @@ import React, { Component, PropTypes as _ } from 'react';
 import React3 from 'react-three-renderer';
 import ReactDOM from 'react-dom';
 import THREE from 'three.js';
+import {connect} from 'react-redux';
+import {step} from '../actions/worker';
 import {TrackballControls} from '../utils';
 
+@connect()
 class ThreeApp extends Component {
   state = {
     mainCameraPosition: new THREE.Vector3(0, 0, 10000),
@@ -22,7 +25,10 @@ class ThreeApp extends Component {
     }));
     this.controls = controls;
   }
-  _onAnimate = () => this.controls.update();
+  _onAnimate = () => {
+    this.props.dispatch( step() );
+    this.controls.update();
+  }
   componentWillUnmount() {
     this.controls.dispose();
     delete this.controls;
