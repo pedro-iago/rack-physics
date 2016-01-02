@@ -20,7 +20,7 @@ const finalCreateStore = compose(
   )),
   batchedSubscribePR((notify, actionDev) => {
     if(actionDev.action.type !== QUEUE)
-      requestAnimationFrame(notify);
+      notify();
   })
 )(createStore);
 export const store = finalCreateStore(reducer);
