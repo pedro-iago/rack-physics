@@ -6,7 +6,11 @@ function ViewReducer(state = initial, action) {
   switch (type) {
     case SUBSCRIBE:
     case STEP:
-      return {...state, ...payload};
+      let newState = {};
+      for(const key in payload){
+        newState[key] = {...state[key], ...payload[key]};
+      }
+      return {...state, ...newState};
     default:
       return state;
   }

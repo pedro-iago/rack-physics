@@ -1,3 +1,39 @@
+export default store => next => action => {
+  const result = next(queue(action));
+  return result;
+}
+
+//this should be only temporary here! hopefully he will accept my pull request
+export function batchedSubscribePR(batch) {
+  const listeners = [];
+  function subscribe(listener) {
+    listeners.push(listener);
+    return function unsubscribe() {
+      const index = listeners.indexOf(listener);
+      listeners.splice(index, 1);
+    };
+  }
+  function notifyListenersBatched(...dispatchArgs) {
+    batch(() => listeners.slice().forEach(listener => listener()), ...dispatchArgs);
+  }
+  return next => (...args) => {
+    const store = next(...args);
+    const subscribeImmediate = store.subscribe;
+
+    function dispatch(...dispatchArgs) {
+      const res = store.dispatch(...dispatchArgs);
+      notifyListenersBatched(...dispatchArgs);
+      return res;
+    }
+    return {
+      ...store,
+      dispatch,
+      subscribe,
+      subscribeImmediate
+    };
+  };
+}
+
 export const QUEUE = 'QUEUE';
 export function queue( task ){
   return {
@@ -40,9 +76,4 @@ function merge(a, b){
          : a.prototype === Array? a.concat(b.payload)
          : typeof(a) === 'object'? {...a, ...b}
          : [a, b];
-}
-
-export default store => next => action => {
-  const result = next(queue(action));
-  return result;
 }

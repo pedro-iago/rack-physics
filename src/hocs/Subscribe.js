@@ -1,5 +1,6 @@
 import React, {Component, PropTypes as _} from 'react';
 import {connect} from 'react-redux';
+import {store} from '../hocs/Provide';
 import {subscribe} from '../actions/worker';
 import {wrapDisplayName} from '../utils/HocUtils';
 

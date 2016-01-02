@@ -6,6 +6,9 @@ import { ThreeApp, DevTools } from './index';
 
 @Provide
 class App extends Component {
+  state = {
+    boxes: null
+  }
   _randomBoxes(ammount){
     let specs = [];
     for(let i = 0; i<ammount; i++){
@@ -19,6 +22,11 @@ class App extends Component {
     }
     return specs.map((props) => <Body {...props}/>);
   }
+  componentWillMount(){
+    this.setState({
+      boxes: this._randomBoxes(100)
+    });
+  }
   render() {
     return (
       <div id = "App">
@@ -28,7 +36,7 @@ class App extends Component {
             name = "Paradim"
             G = {10}
           >
-            {this._randomBoxes(25)}
+            {this.state.boxes}
             <Body
               name = "roof"
               type = {TYPE.BOX}
