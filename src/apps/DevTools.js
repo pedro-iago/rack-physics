@@ -24,3 +24,9 @@ export default
       </FilterMonitor>
     </DockMonitor>
   );
+// export default
+//   createDevTools(
+//     <SliderMonitor
+//       theme = 'solarized'
+//     />
+//   );

@@ -13,7 +13,7 @@ class App extends Component {
         key: 'caixa'+i,
         name: 'caixa'+i,
         type: TYPE.BOX,
-        pos: {x: 2000*Math.random() - 1000, y: 2000*Math.random() - 1000, z: 0},
+        pos: {x: 8000*Math.random() - 4000, y: 200*Math.random() - 1000, z: 2000*Math.random() - 1000},
         dim: {width: 200, height: 200, depth: 200}
       });
     }
@@ -26,14 +26,14 @@ class App extends Component {
         <ThreeApp>
           <World
             name = "Paradim"
-            G = {-10}
+            G = {10}
           >
-            {this._randomBoxes(10)}
+            {this._randomBoxes(25)}
             <Body
               name = "roof"
               type = {TYPE.BOX}
-              pos = {{y: 3000}}
-              dim = {{width: 2000, height: 50, depth: 3000}}
+              pos = {{y: 500}}
+              dim = {{width: 10000, height: 50, depth: 3000}}
               move = {false}
             />
             <Joint
