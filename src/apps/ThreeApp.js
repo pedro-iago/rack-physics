@@ -29,12 +29,12 @@ class ThreeApp extends Component {
   //however, when I open chrome timeline, the cpu wants to show off and runs at 100%
   //and what happens is that, usually, for each frame I get one run in the sagas (ideal case)
   //how to force the cpu to always run at 100%? is that even the true reason it's faster?
-  //interesting enough, using the touch screen pauses the sagas for 5 sec, while with the mouse there's zer0 delay (maybe because mouseUp is easier to detect?)
   //why request animation frame it's 5x times slower when I got the devtools on? quite unexpected...
   //what if I could delay the browser refresh rate to 30 fps? that would give more time to sagas and still it would be smooth to my eyes
   _onAnimate = () => {
     this.props.dispatch( step() );
     this.controls.update();
+    //console.log("request");
   }
   componentWillUnmount() {
     this.controls.dispose();

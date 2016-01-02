@@ -7,18 +7,21 @@ import pick from 'lodash.pick';
 import mapValues from 'lodash.mapvalues';
 
 function* root( getState ){
-  const getWorkers = () => getState().WorkReducer;
-  const getObjects = () => getState().ViewReducer;
-  const getTasks = () => getState().TaskReducer;
-  while(true){
-    yield take(QUEUE);
-    for(const {type, payload} of getTasks()){switch(type){
-      case SPAWN:  yield call(fetchSpawn, payload);  break;
-      case INIT:  yield call(fetchInit, getWorkers(), payload);  break;
-      case SUBSCRIBE:  yield call(fetchSubscribe, getWorkers(), payload);  break;
-      case STEP:  yield call(fetchStep, getWorkers(), getObjects());  break;
-      case TERMINATE:  yield call(fetchTerminate, pick(getWorkers(), payload));  break;
-    }};
+  while( yield take(QUEUE) ){
+    const {TaskReducer: tasks} = getState();
+    for(const task of tasks)
+      yield call(fetch, task, getState);
+  }
+}
+
+function* fetch( {type, payload}, getState ){
+  const {WorkReducer: workers, ViewReducer: objects} = getState();
+  switch(type){
+    case SPAWN:  yield call(fetchSpawn, payload);  break;
+    case INIT:  yield call(fetchInit, workers, payload);  break;
+    case SUBSCRIBE:  yield call(fetchSubscribe, workers, payload);  break;
+    case STEP:  yield call(fetchStep, workers, objects);  break;
+    case TERMINATE:  yield call(fetchTerminate, pick(workers, payload));  break;
   }
 }
 
@@ -42,6 +45,7 @@ function* fetchSubscribe( workers, objects ){
 function* fetchStep( workers, objects ){
   const {payload: nextObjects} = yield call(broadcast, workers, {type: STEP, payload: objects});
   yield put( step(nextObjects) );
+  //console.log("step");
 }
 
 function* fetchTerminate( workers ){

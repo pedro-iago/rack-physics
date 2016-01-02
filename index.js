@@ -26,6 +26,7 @@ var fcfsBatchingStrategy = {
   batchedUpdates: function(callback, a, b, c, d, e) {
     callback(a, b, c, d, e);
     ReactUpdates.flushBatchedUpdates();
+    //this is a possible place for requesting another three js frame
   }
 };
 ReactUpdates.injection.injectBatchingStrategy(fcfsBatchingStrategy);
