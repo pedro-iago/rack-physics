@@ -17,11 +17,9 @@ export default
       defaultPosition='bottom'
       toggleVisibilityKey='H'
       changePositionKey='Q'>
-      <FilterMonitor blacklist={[QUEUE]}>
-        <SliderMonitor
-          theme = 'solarized'
-        />
-      </FilterMonitor>
+      <SliderMonitor
+        theme = 'solarized'
+      />
     </DockMonitor>
   );
 // export default
