@@ -1,23 +1,28 @@
-import merge from 'lodash.merge';
+import pick from 'lodash.pick';
+import mapValues from 'lodash.mapValues';
 import message from './message';
 
 //it looks that it is not time for async now...
-//also, deep merge suucks
 function broadcast(hashTargets, data){
-  return new Promise((resolve, reject) => Promise.all(Object.values(hashTargets).map((target) => message(target, data))).then((responses) => {
-    const type = data.type;
-    const meta = responses.map( (response) => response.meta );
-
-    let payload = {};
-    for(const response of responses){
-      for(const key in response.payload){
-        payload[key] = {...payload[key], ...response.payload[key]};
+  return new Promise((resolve, reject) => Promise.all(Object.values(
+    mapValues(hashTargets, (target, key) => message(target, filter(data, key)) )))
+    .then((responses) => {
+      const type = data.type;
+      const meta = responses.map( (response) => response.meta );
+      let payload = {};
+      for(const response of responses){
+        if(typeof(response.payload)==='object')
+          for(const key in response.payload)
+            payload[key] = {...payload[key], ...response.payload[key]};
       }
-    }
-    //const payload = merge( {}, ...responses.map( (response) => response.payload ) );
+      resolve({ type, meta, payload });
+    }).catch((err) => reject(err)));
+}
 
-    resolve({ type, meta, payload });
-  }).catch((err) => reject(err)));
+function filter(data, key){
+  const payload = data.payload? pick(data.payload, (_, id) => id.startsWith(key))
+                              : key;
+  return {...data, payload};
 }
 
 export default broadcast;

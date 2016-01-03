@@ -23,25 +23,16 @@ var joints = [];
 //   WORKER MESSAGE
 //--------------------------------------------------
 
-self.onmessage = function (e) {
-  const { type, meta, payload = {} } = e.data;
-  let input = pick( payload, (_, key) => key.startsWith(myKey) );
-  let result = {};
+self.onmessage = ({data: action}) =>
+  self.postMessage({ type: action.type, meta: myKey, payload: run(action) });
+
+function run({type, payload}){
   switch(type){
-    case TYPE.SPAWN:
-      myKey = meta;
-    break;
-    case TYPE.INIT:
-      result = INIT(input);
-    break;
-    case TYPE.SUBSCRIBE:
-      result = SUBSCRIBE(input);
-    break;
-    case TYPE.STEP:
-      result = STEP(input);
-    break;
+    case TYPE.SPAWN: return myKey = payload;
+    case TYPE.INIT: return INIT(payload);
+    case TYPE.SUBSCRIBE: return SUBSCRIBE(payload);
+    case TYPE.STEP: return STEP(payload);
   }
-  self.postMessage({type, meta: myKey, payload: result});
 }
 
 //--------------------------------------------------
@@ -73,6 +64,7 @@ function SUBSCRIBE(objects){
     if( TYPE.JOINTS.indexOf(object.type) >= 0 ) addJoint(object);
     else if ( TYPE.BODIES.indexOf(object.type) >= 0 ) addBody(object);
   }
+  return objects; //I should rather return the ones that were added
 }
 
 //--------------------------------------------------
