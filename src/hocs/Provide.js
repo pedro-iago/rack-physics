@@ -1,27 +1,20 @@
 import React, {Component, PropTypes as _} from 'react';
 import {applyMiddleware, createStore, combineReducers, compose} from 'redux';
 import {persistState} from 'redux-devtools';
-import sagaMiddleware from 'redux-saga';
-import taskMiddleware, {TaskReducer, batchedSubscribePR, QUEUE} from '../middleware/taskMiddleware';
-import DevTools from '../apps/DevTools';
 import {batchedSubscribe} from 'redux-batched-subscribe';
-import {unstable_batchedUpdates as batchedUpdates} from 'react-dom';
+import {taskEnhancer} from '../interceptors';
+import DevTools from '../apps/DevTools';
 import * as reducers from '../reducers';
-import sagas from '../sagas';
+import * as sagas from '../sagas';
 import {wrapDisplayName} from "../utils/HocUtils";
 
-const reducer = combineReducers({...reducers, TaskReducer});
+const reducer = combineReducers(reducers);
 const finalCreateStore = compose(
-  applyMiddleware( taskMiddleware ),
-  applyMiddleware( sagaMiddleware(...sagas) ),
+  taskEnhancer(sagas),
   DevTools.instrument(),
   persistState(window.location.href.match(
     /[?&]debug_session=([^&]+)\b/
-  )),
-  batchedSubscribePR((notify, actionDev) => {
-    if(actionDev.action.type !== QUEUE)
-      notify();
-  })
+  ))
 )(createStore);
 export const store = finalCreateStore(reducer);
 

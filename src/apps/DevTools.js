@@ -1,10 +1,8 @@
 import React, { PropTypes as _ } from 'react';
 import { createDevTools } from 'redux-devtools';
 import DockMonitor from 'redux-devtools-dock-monitor';
-import FilterMonitor from 'redux-devtools-filter-actions';
 import LogMonitor from 'redux-devtools-log-monitor';
 import SliderMonitor from 'redux-slider-monitor';
-import {QUEUE} from '../middleware/taskMiddleware';
 
 //TODO: filter monitor on those queues(and skip them)! Also it needs to filter the computed states as well
 //TODO: think about the consequences of skiping actions like SPAWN, SUBSCRIBE.

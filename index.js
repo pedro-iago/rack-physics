@@ -20,16 +20,16 @@ ReactDOM.render(
 // }
 // requestAnimationFrame(render);
 
-let ReactUpdates = require('react/lib/ReactUpdates');
-var fcfsBatchingStrategy = {
-  isBatchingUpdates: true,
-  batchedUpdates: function(callback, a, b, c, d, e) {
-    callback(a, b, c, d, e);
-    ReactUpdates.flushBatchedUpdates();
-    //this is a possible place for requesting another three js frame
-  }
-};
-ReactUpdates.injection.injectBatchingStrategy(fcfsBatchingStrategy);
+// let ReactUpdates = require('react/lib/ReactUpdates');
+// var fcfsBatchingStrategy = {
+//   isBatchingUpdates: true,
+//   batchedUpdates: function(callback, a, b, c, d, e) {
+//     callback(a, b, c, d, e);
+//     ReactUpdates.flushBatchedUpdates();
+//     //this is a possible place for requesting another three js frame
+//   }
+// };
+// ReactUpdates.injection.injectBatchingStrategy(fcfsBatchingStrategy);
 
 // let ReactUpdates = require('react/lib/ReactUpdates');
 // var rafBatchingStrategy = {
