@@ -1,1 +1,1 @@
-export taskEnhancer from './taskEnhancer';
+export TaskHandler from './TaskHandler';
