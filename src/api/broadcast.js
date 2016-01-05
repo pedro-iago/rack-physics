@@ -2,8 +2,8 @@ import pick from 'lodash.pick';
 import mapValues from 'lodash.mapValues';
 import message from './message';
 
-// async function broadcast(hashTargets, data){
-//   const responses = await* Object.values(mapValues(hashTargets, (target, key) => message(target, filter(data, key))));
+// async function broadcast(targets, data){
+//   const responses = await* Object.values(mapValues(targets, (target, key) => message(target, filter(data, key))));
 //   const type = data.type;
 //   const meta = responses.map( (response) => response.meta );
 //   let payload = {};
@@ -16,9 +16,9 @@ import message from './message';
 // }
 
 //it looks that it is not time for async now...
-function broadcast(hashTargets, data){
+function broadcast(targets, data){
   return new Promise((resolve, reject) => Promise.all(Object.values(
-    mapValues(hashTargets, (target, key) => message(target, filter(data, key))) ))
+    mapValues(targets, (target, key) => message(target, filter(data, key))) ))
     .then((responses) => {
       const type = data.type;
       const meta = responses.map( (response) => response.meta );

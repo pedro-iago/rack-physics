@@ -1,9 +1,11 @@
 import React, {PropTypes as _} from 'react';
 import _c from '../utils/CustomPropTypes';
-import {wrapDisplayName} from "../utils/HocUtils";
+import {wrapDisplayName, wrap} from '../utils/HocUtils';
 import {Vec3} from '../utils/VectorUtils';
 
 const Transform = BaseComponent => {
+
+  const Wrapped = wrap(BaseComponent);
   const Wrapper = props => {
     const {pos, rot, children} = props;
     const withOffset = React.Children.map(children, child =>
@@ -12,7 +14,7 @@ const Transform = BaseComponent => {
         rot: Vec3.add(child.rot, rot)
       })
     );
-    return BaseComponent({...props, children: withOffset});
+    return Wrapped({...props, children: withOffset});
   };
 
   Wrapper.displayName = wrapDisplayName(BaseComponent, 'Transform');

@@ -1,18 +1,25 @@
 import React, {Component, PropTypes as _} from 'react';
-import {connect} from 'react-redux';
-import {store} from '../hocs/Provide';
+import {store} from './Provide';
 import {subscribe} from '../actions/worker';
-import {wrapDisplayName} from '../utils/HocUtils';
+import {wrapDisplayName, wrap} from '../utils/HocUtils';
+import pick from 'lodash.pick';
 
 const Subscribe = BaseComponent => {
-  @connect( (state, props) => state.ViewReducer[props.myKey] || {} )
+
+  const Wrapped = wrap(BaseComponent);
   class Wrapper extends Component {
     componentWillMount() {
-      const {myKey, dispatch, children, ...value} = this.props;
-      dispatch( subscribe({ [myKey]: value }) );
+      const {id, children, state, ...initial} = this.props;
+      store.dispatch( subscribe({ [id]: initial }) );
     }
     render() {
-      return BaseComponent(this.props);
+      const {id, children, state, ...initial} = this.props;
+      const withState = React.Children.map( children, (child) =>
+        React.cloneElement( child, {
+          state: pick( state, (_,key) => key.startsWith(child.props.id) )
+        })
+      );
+      return Wrapped({ ...initial, ...state[id], children: withState });
     }
   }
 

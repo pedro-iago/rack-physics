@@ -1,16 +1,9 @@
-import {SPAWN, INIT, SUBSCRIBE, STEP, TERMINATE} from '../Macros';
+import {SPAWN, SUBSCRIBE, STEP, TERMINATE} from '../Macros';
 
 export function spawn( creators ){
   return {
     type: SPAWN,
     payload: creators
-  };
-}
-
-export function init( settings ){
-  return {
-    type: INIT,
-    payload: settings
   };
 }
 
@@ -28,9 +21,9 @@ export function step( objects ){
   };
 }
 
-export function terminate( key ){
+export function terminate( id ){
   return {
     type: TERMINATE,
-    payload: key
+    payload: id
   };
 }

@@ -1,22 +1,22 @@
 import React, {Component, PropTypes as _} from 'react';
-import {connect} from 'react-redux';
-import {spawn, init, terminate} from '../actions/worker';
-import {wrapDisplayName} from '../utils/HocUtils';
+import {store} from './Provide';
+import {spawn, terminate} from '../actions/worker';
+import {wrapDisplayName, wrap} from '../utils/HocUtils';
 
 const Worker = creator => BaseComponent => {
-  @connect()
+
+  const Wrapped = wrap(BaseComponent);
   class Wrapper extends Component {
     componentWillMount() {
-      const {myKey, dispatch, children, ...value} = this.props;
-      dispatch( spawn({ [myKey]: creator }) );
-      dispatch( init({ [myKey]: value }) );
+      const {id} = this.props;
+      store.dispatch( spawn({ [id]: creator }) );
     }
     componentWillUnmount() {
-      const {myKey, dispatch} = this.props;
-      dispatch( terminate(myKey) );
+      const {id} = this.props;
+      store.dispatch( terminate(id) );
     }
     render() {
-      return BaseComponent(this.props);
+      return Wrapped(this.props);
     }
   }
 

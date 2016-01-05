@@ -10,11 +10,11 @@
 import pick from 'lodash.pick';
 import OIMO from '../utils/Oimo';
 import { Vec3 } from '../utils/VectorUtils';
-import { uniqueUnion } from '../hocs/Namespace';
+import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
 
 // physics world
-var myKey = undefined;
+var id = undefined;
 var world = new OIMO.World();
 var bodies = [];
 var joints = [];
@@ -24,31 +24,13 @@ var joints = [];
 //--------------------------------------------------
 
 self.onmessage = ({data: action}) =>
-  self.postMessage({ type: action.type, meta: myKey, payload: run(action) });
+  self.postMessage({ type: action.type, meta: id, payload: run(action) });
 
 function run({type, payload}){
   switch(type){
-    case TYPE.SPAWN: return myKey = payload;
-    case TYPE.INIT: return INIT(payload);
+    case TYPE.SPAWN: return id = payload;
     case TYPE.SUBSCRIBE: return SUBSCRIBE(payload);
     case TYPE.STEP: return STEP(payload);
-  }
-}
-
-//--------------------------------------------------
-//   INIT WORLD WITH SETTINGS
-//--------------------------------------------------
-
-function INIT(settings){
-  clear();
-  const {G, iterations, timestep, broadphase} = settings[myKey];
-  world.gravity = new OIMO.Vec3(0, G, 0);
-  world.numIterations = iterations;
-  world.timeStep = timestep;
-  switch(broadphase){
-    case TYPE.BRUTE: world.broadPhase = new OIMO.BruteForceBroadPhase(); break;
-    case TYPE.SWEEP: default: world.broadPhase = new OIMO.SAPBroadPhase(); break;
-    case TYPE.TREE: world.broadPhase = new OIMO.DBVTBroadPhase(); break;
   }
 }
 
@@ -56,12 +38,15 @@ function INIT(settings){
 //   ADD SOMETING ON FLY
 //--------------------------------------------------
 
-//TODO refuse to overwrite objects with the same key and then call something like
-//self.postMessage({type: TYPE.SUBSCRIBE, payload: "Objects have the same name!", error: true});
+//TODO make this a pure function that returns world and objects
+//then call this every step, to use that and make step also a pure function
+//the only state that seems hard to internalize for now is id... maybe I should always re-send the id? -seems reasonable
+//I think maybe subscribe is the hardest one, since there is a lot of internal state on oimo that needs to be extracted and re-feeded each time
 function SUBSCRIBE(objects){
   for(const key in objects){
     let object  = {...objects[key], name: key};
-    if( TYPE.JOINTS.indexOf(object.type) >= 0 ) addJoint(object);
+    if(key === id) init(object);
+    else if( TYPE.JOINTS.indexOf(object.type) >= 0 ) addJoint(object);
     else if ( TYPE.BODIES.indexOf(object.type) >= 0 ) addBody(object);
   }
   return objects; //I should rather return the ones that were added
@@ -101,6 +86,21 @@ var clear = function(){
 }
 
 //--------------------------------------------------
+//   INIT WORLD WITH SETTINGS
+//--------------------------------------------------
+
+function init( {G, iterations, timestep, broadphase} ){
+  world.gravity = new OIMO.Vec3(0, G, 0);
+  world.numIterations = iterations;
+  world.timeStep = timestep;
+  switch(broadphase){
+    case TYPE.BRUTE: world.broadPhase = new OIMO.BruteForceBroadPhase(); break;
+    case TYPE.SWEEP: default: world.broadPhase = new OIMO.SAPBroadPhase(); break;
+    case TYPE.TREE: world.broadPhase = new OIMO.DBVTBroadPhase(); break;
+  }
+}
+
+//--------------------------------------------------
 //    BASIC OBJECT
 //--------------------------------------------------
 
@@ -125,8 +125,8 @@ var addBody = function( {name, type, pos, rot, dim, density, friction, restituit
 
 //THIS IS UGLY COUSE OIMO IS UGLY
 var addJoint = function({name, type, bodies, anchors, limits, axis, damping, stiffness, maxForce, maxTorque}){
-  const body1 = uniqueUnion(bodies[0], myKey);
-  const body2 = uniqueUnion(bodies[1], myKey);
+  const body1 = uniqueUnion(bodies[0], getParent(name));
+  const body2 = uniqueUnion(bodies[1], getParent(name));
   const axe1 = [axis[0].x, axis[0].y, axis[0].z];
   const axe2 = [axis[1].x, axis[1].y, axis[1].z];
   const pos1 = [anchors[0].x, anchors[0].y, anchors[0].z];
