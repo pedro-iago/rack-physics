@@ -2,11 +2,10 @@ import React, { Component, PropTypes as _ } from 'react';
 import React3 from 'react-three-renderer';
 import ReactDOM from 'react-dom';
 import THREE from 'three.js';
-import {connect} from 'react-redux';
+import {store} from '../hocs/Provide';
 import {step} from '../actions/worker';
 import {TrackballControls} from '../utils';
 
-@connect()
 class ThreeApp extends Component {
   state = {
     mainCameraPosition: new THREE.Vector3(0, 0, 10000),
@@ -32,7 +31,8 @@ class ThreeApp extends Component {
   //why request animation frame it's 5x times slower when I got the devtools on? quite unexpected...
   //what if I could delay the browser refresh rate to 30 fps? that would give more time to sagas and still it would be smooth to my eyes
   _onAnimate = () => {
-    this.props.dispatch( step() );
+    console.log("render");
+    store.dispatch( step() );
     this.controls.update();
     //console.log("request");
   }

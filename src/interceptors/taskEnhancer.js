@@ -1,17 +1,56 @@
+import {createStore} from 'redux';
 import sagaMiddleware from 'redux-saga';
 
-export default function taskEnhancer(hashSagas){
-  var tasks = [];
-  const post = (action) => tasks = queuer(tasks, action);
-  const resolve = () => tasks = tasks.slice(1);
-  const sagas = Object.values(hashSagas);
-  return (next) => (reducer, initialState) => {
+const QUEUE = 'QUEUE';
+function queue(action){
+  return {
+    type: QUEUE,
+    payload: action
+  };
+}
+
+const DEQUEUE = 'DEQUEUE';
+function dequeue(){
+  return {
+    type: DEQUEUE
+  };
+}
+
+function TaskReducerWith(queuer = (arr, el) => arr.concat(el)){
+  return (state = [], task) => {
+    const {type, payload: action} = task;
+    switch (type) {
+      case QUEUE:
+        return queuer(state, action);
+      case DEQUEUE:
+        return state.slice(1);
+      default:
+        return state;
+    }
+  };
+}
+
+function liftStoreWith(store, sagas, TaskReducer) {
+  const liftedStore = createStore(TaskReducer);
+  const post = (action) => liftedStore.dispatch(queue(action));
+  const resolve = () => liftedStore.dispatch(dequeue());
+  store.subscribe(resolve);
+  const {dispatch, getState} = store;
+  //ugly solution, find a way to put tasks in saga
+  const withTasks = () => ({...getState(), tasks: liftedStore.getState()});
+  return {
+    ...store,
+    dispatch: sagaMiddleware(...sagas)({dispatch, getState: withTasks})(post)
+  };
+}
+
+export default function instrument(hashSagas) {
+  return next => (reducer, initialState) => {
     const store = next(reducer, initialState);
-    const getState = () => ({ ...store.getState(), tasks });
-    const dispatch = sagaMiddleware(...sagas)({dispatch: store.dispatch, getState})(post);
-    store.subscribe(resolve);
-    return { ...store, getState, dispatch };
-  }
+    const TaskReducer = TaskReducerWith(queuer);
+    const liftedStore = liftStoreWith(store, Object.values(hashSagas), TaskReducer);
+    return liftedStore;
+  };
 }
 
 function queuer(state, action){

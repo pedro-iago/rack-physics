@@ -11,6 +11,7 @@ function* root( getState ){
     const {tasks} = getState();
     for(const task of tasks){
       const next = yield call(fetch, task, getState);
+      console.log("dispatch");
       if(!!pipeline.type) yield put(pipeline);
       pipeline = yield join(next || ( yield fork({}) ));
     }
