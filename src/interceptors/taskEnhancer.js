@@ -32,19 +32,20 @@ function TaskReducerWith(queuer = (arr, el) => arr.concat(el)){
 
 function liftStoreWith(store, sagas, TaskReducer) {
   const liftedStore = createStore(TaskReducer);
-  const post = (action) => liftedStore.dispatch(queue(action));
+  const report = sagaMiddleware(...sagas)(store)(() => {});
+  const post = (action) => {
+    liftedStore.dispatch(queue(action));
+    report(liftedStore.getState());
+  }
   const resolve = () => liftedStore.dispatch(dequeue());
   store.subscribe(resolve);
-  const {dispatch, getState} = store;
-  //ugly solution, find a way to put tasks in saga
-  const withTasks = () => ({...getState(), tasks: liftedStore.getState()});
   return {
     ...store,
-    dispatch: sagaMiddleware(...sagas)({dispatch, getState: withTasks})(post)
+    dispatch: post
   };
 }
 
-export default function instrument(hashSagas) {
+export default function taskEnhancer(hashSagas) {
   return next => (reducer, initialState) => {
     const store = next(reducer, initialState);
     const TaskReducer = TaskReducerWith(queuer);

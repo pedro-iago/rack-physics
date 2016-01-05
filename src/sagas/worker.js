@@ -7,8 +7,8 @@ import mapValues from 'lodash.mapValues';
 
 function* root( getState ){
   let pipeline = {};
-  while( yield take() ){
-    const {tasks} = getState();
+  while(true){
+    const tasks = yield take();
     for(const task of tasks){
       const next = yield call(fetch, task, getState);
       console.log("dispatch");
