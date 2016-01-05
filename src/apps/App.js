@@ -16,7 +16,7 @@ class App extends Component {
         key: 'caixa'+i,
         name: 'caixa'+i,
         type: TYPE.BOX,
-        pos: {x: 8000*Math.random() - 4000, y: 200*Math.random() - 1000, z: 2000*Math.random() - 1000},
+        pos: {x: 5000*Math.random() - 2500, y: 1000*Math.random() - 2000, z: 2000*Math.random() - 1000},
         dim: {width: 200, height: 200, depth: 200}
       });
     }
@@ -30,7 +30,6 @@ class App extends Component {
   render() {
     return (
       <div id = "App">
-        <DevTools/>
         <ThreeApp>
           <World
             name = "Paradim"
@@ -40,8 +39,8 @@ class App extends Component {
             <Body
               name = "roof"
               type = {TYPE.BOX}
-              pos = {{y: 500}}
-              dim = {{width: 10000, height: 50, depth: 3000}}
+              pos = {{y: 0}}
+              dim = {{width: 8000, height: 100, depth: 3000}}
               move = {false}
             />
             <Joint

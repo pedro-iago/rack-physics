@@ -17,7 +17,7 @@ function dequeue(){
 }
 
 function TaskReducerWith(queuer = (arr, el) => arr.concat(el)){
-  return (state = [], task) => {
+  return (state = [], task) => {  //maybe using a Ordered Map could be more appropriate?
     const {type, payload: action} = task;
     switch (type) {
       case QUEUE:
@@ -32,13 +32,16 @@ function TaskReducerWith(queuer = (arr, el) => arr.concat(el)){
 
 function liftStoreWith(store, sagas, TaskReducer) {
   const liftedStore = createStore(TaskReducer);
-  const report = sagaMiddleware(...sagas)(store)(() => {});
+  const getState = store.getState;
+  const dispatch = (action) => {
+    store.dispatch(action);
+    liftedStore.dispatch(dequeue());
+  }
+  const report = sagaMiddleware(...sagas)({dispatch, getState})(() => {});
   const post = (action) => {
     liftedStore.dispatch(queue(action));
     report(liftedStore.getState());
   }
-  const resolve = () => liftedStore.dispatch(dequeue());
-  store.subscribe(resolve);
   return {
     ...store,
     dispatch: post

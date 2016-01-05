@@ -31,7 +31,6 @@ class ThreeApp extends Component {
   //why request animation frame it's 5x times slower when I got the devtools on? quite unexpected...
   //what if I could delay the browser refresh rate to 30 fps? that would give more time to sagas and still it would be smooth to my eyes
   _onAnimate = () => {
-    console.log("render");
     store.dispatch( step() );
     this.controls.update();
     //console.log("request");

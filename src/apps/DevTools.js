@@ -15,7 +15,7 @@ export default
       defaultPosition='bottom'
       toggleVisibilityKey='H'
       changePositionKey='Q'>
-      <LogMonitor
+      <SliderMonitor
         theme = 'solarized'
       />
     </DockMonitor>

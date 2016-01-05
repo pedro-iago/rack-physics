@@ -43,13 +43,15 @@ function run({type, payload}){
 //the only state that seems hard to internalize for now is id... maybe I should always re-send the id? -seems reasonable
 //I think maybe subscribe is the hardest one, since there is a lot of internal state on oimo that needs to be extracted and re-feeded each time
 function SUBSCRIBE(objects){
+  let subscribed = {};
   for(const key in objects){
     let object  = {...objects[key], name: key};
-    if(key === id) init(object);
-    else if( TYPE.JOINTS.indexOf(object.type) >= 0 ) addJoint(object);
-    else if ( TYPE.BODIES.indexOf(object.type) >= 0 ) addBody(object);
+    if( key === id && init(object) ||
+        TYPE.JOINTS.indexOf(object.type) >= 0 && addJoint(object) ||
+        TYPE.BODIES.indexOf(object.type) >= 0 && addBody(object)  )
+      subscribed[key] = {...objects[key], visible: true};
   }
-  return objects; //I should rather return the ones that were added
+  return subscribed; //I should rather return the ones that were added
 }
 
 //--------------------------------------------------
@@ -68,8 +70,8 @@ var STEP = function(objects){
     }
   }
   for (const joint of joints) {
-    const ap1 = Vec3.scale(joint.localAnchorPoint1, OIMO.WORLD_SCALE);
-    const ap2 = Vec3.scale(joint.localAnchorPoint2, OIMO.WORLD_SCALE);
+    const ap1 = Vec3.scale(joint.anchorPoint1, OIMO.WORLD_SCALE);
+    const ap2 = Vec3.scale(joint.anchorPoint2, OIMO.WORLD_SCALE);
     payload = { ...payload, [joint.name]: {anchors: [ap1, ap2]} };
   }
   return payload;
@@ -98,6 +100,7 @@ function init( {G, iterations, timestep, broadphase} ){
     case TYPE.SWEEP: default: world.broadPhase = new OIMO.SAPBroadPhase(); break;
     case TYPE.TREE: world.broadPhase = new OIMO.DBVTBroadPhase(); break;
   }
+  return true;
 }
 
 //--------------------------------------------------
@@ -116,7 +119,7 @@ var addBody = function( {name, type, pos, rot, dim, density, friction, restituit
   }
   var b = world.add( {name, type, pos, rot, size, density, friction, restituition, move} );
   bodies.push(b);
-  return b.type;
+  return b.type !== OIMO.BODY_NULL;
 }
 
 //--------------------------------------------------
@@ -138,5 +141,5 @@ var addJoint = function({name, type, bodies, anchors, limits, axis, damping, sti
   var j = world.add({name, type, body1, body2, axe1, axe2, pos1, pos2, spring, allowCollision: true});
   if( type === TYPE.JOINT_DISTANCE )
     joints.push(j);
-  return j.type;
+  return j.type !== OIMO.JOINT_NULL;
 }

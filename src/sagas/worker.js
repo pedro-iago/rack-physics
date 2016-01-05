@@ -5,14 +5,12 @@ import {message, broadcast} from '../api';
 import pick from 'lodash.pick';
 import mapValues from 'lodash.mapValues';
 
-var counter = 1;
 function* root( getState ){
   let pipeline = {};
   while(true){
     const tasks = yield take();
     for(const task of tasks){
       const next = yield call(fetch, task, getState);
-      console.log("dispatch", counter++);
       if(!!pipeline.type) yield put(pipeline);
       pipeline = yield join(next || ( yield fork({}) ));
     }

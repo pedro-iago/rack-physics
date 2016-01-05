@@ -32,7 +32,7 @@ OimoBody.defaultProps = {
   friction: 0.4,
   restitution: 0.2,
   move: true,
-  visible: true
+  visible: false
 }
 
 export default OimoBody;
