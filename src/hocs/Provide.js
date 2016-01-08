@@ -15,8 +15,7 @@ const finalCreateStore = compose(
   DevTools.instrument(),
   persistState(window.location.href.match(
     /[?&]debug_session=([^&]+)\b/
-  )),
-  batchedSubscribe(batchedUpdates)
+  ))
 )(createStore);
 export const store = finalCreateStore(reducer);
 
