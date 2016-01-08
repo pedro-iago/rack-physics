@@ -9,22 +9,22 @@ class App extends Component {
   state = {
     boxes: null
   }
-  _randomBoxes(ammount){
+  _randomSpheres(ammount){
     let specs = [];
     for(let i = 0; i<ammount; i++){
       specs.push({
-        key: 'caixa'+i,
-        name: 'caixa'+i,
-        type: TYPE.BOX,
-        pos: {x: 5000*Math.random() - 2500, y: 1000*Math.random() - 2000, z: 2000*Math.random() - 1000},
-        dim: {width: 200, height: 200, depth: 200}
+        key: 'bola'+i,
+        name: 'bola'+i,
+        type: TYPE.SPHERE,
+        pos: {x: 500*Math.random() - 250, y: 100*Math.random() - 200, z: 200*Math.random() - 100},
+        dim: {radius: 20}
       });
     }
     return specs.map((props) => <Body {...props}/>);
   }
   componentWillMount(){
     this.setState({
-      boxes: this._randomBoxes(100)
+      boxes: this._randomSpheres(100)
     });
   }
   render() {
@@ -40,17 +40,17 @@ class App extends Component {
               name = "roof"
               type = {TYPE.BOX}
               pos = {{y: 0}}
-              dim = {{width: 8000, height: 100, depth: 3000}}
+              dim = {{width: 800, height: 10, depth: 300}}
               move = {false}
             />
             <Joint
               name = "string"
               type = {TYPE.JOINT_DISTANCE}
-              bodies = {['roof', 'caixa0']}
-              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 2000, z: 0}]}
+              bodies = {['roof', 'bola0']}
+              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 200, z: 0}]}
               axes = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
-              limits = {[2000, 2000]}
-              stiffness = {1/2}
+              limits = {[45, 50]}
+              stiffness = {0.2}
               damping = {0.8}
             />
           </World>

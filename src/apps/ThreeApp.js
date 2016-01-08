@@ -8,7 +8,7 @@ import {TrackballControls} from '../utils';
 
 class ThreeApp extends Component {
   state = {
-    mainCameraPosition: new THREE.Vector3(0, 0, 10000),
+    mainCameraPosition: new THREE.Vector3(0, 0, 1000),
   }
   componentDidMount() {
     const controls = new TrackballControls(this.refs.mainCamera, ReactDOM.findDOMNode(this.refs.react3));
