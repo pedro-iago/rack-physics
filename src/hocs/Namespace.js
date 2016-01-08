@@ -1,29 +1,32 @@
-import React, {PropTypes as _} from 'react';
+import React, {Component, PropTypes as _} from 'react';
 import {wrapDisplayName, wrap} from '../utils/HocUtils';
 
 const Namespace = BaseComponent => {
 
   const Wrapped = wrap(BaseComponent);
-  const Wrapper = props => {
-    const {id, children, ...base} = props;
-    const withId = React.Children.map( children, (child) =>
-      React.cloneElement( child, { id: uniqueUnion(child.props.name, id) } )
-    );
-    return Wrapped({ ...base, id, children: withId });
-  };
-
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Namespace');
-  Wrapper.propTypes = {
-    ...BaseComponent.propTypes,
-    name: _.string.isRequired
-  };
-  Wrapper.defaultProps = {
-    ...BaseComponent.defaultProps,
-    id: "@root"
+  class Wrapper extends Component {
+    static contextTypes = {
+      id: _.string
+    }
+    static childContextTypes = {
+      id: _.string
+    }
+    getChildContext() {
+      return {
+        id: uniqueUnion(this.props.name, this.context.id)
+      }
+    }
+    render() {
+      return Wrapped(this.props);
+    }
   }
 
+  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Namespace');
+  Wrapper.propTypes = BaseComponent.propTypes;
+  Wrapper.defaultProps = BaseComponent.defaultProps;
+
   return Wrapper;
-};
+}
 
 export function uniqueUnion(name, parent){
   if( name.includes(',') )

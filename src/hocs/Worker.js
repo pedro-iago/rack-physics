@@ -7,12 +7,15 @@ const Worker = creator => BaseComponent => {
 
   const Wrapped = wrap(BaseComponent);
   class Wrapper extends Component {
+    static contextTypes = {
+      id: _.string
+    }
     componentWillMount() {
-      const {id} = this.props;
+      const {id} = this.context;
       store.dispatch( spawn({ [id]: creator }) );
     }
     componentWillUnmount() {
-      const {id} = this.props;
+      const {id} = this.context;
       store.dispatch( terminate(id) );
     }
     render() {

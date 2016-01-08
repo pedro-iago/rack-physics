@@ -8,18 +8,19 @@ const Subscribe = BaseComponent => {
 
   const Wrapped = wrap(BaseComponent);
   class Wrapper extends Component {
+    static contextTypes = {
+      id: _.string,
+      state: _.any
+    }
     componentWillMount() {
-      const {id, children, state, ...initial} = this.props;
+      const {children, ...initial} = this.props;
+      const {id} = this.context;
       store.dispatch( subscribe({ [id]: initial }) );
     }
     render() {
-      const {id, children, state, ...initial} = this.props;
-      const withState = React.Children.map( children, (child) =>
-        React.cloneElement( child, {
-          state: pick( state, (_,key) => key.startsWith(child.props.id) )
-        })
-      );
-      return Wrapped({ ...initial, ...state[id], children: withState });
+      const {children, ...initial} = this.props;
+      const {id, state} = this.context;
+      return Wrapped({ ...initial, ...state[id], children });
     }
   }
 

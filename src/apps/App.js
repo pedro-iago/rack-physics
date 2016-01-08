@@ -30,6 +30,7 @@ class App extends Component {
   render() {
     return (
       <div id = "App">
+        <DevTools/>
         <ThreeApp>
           <World
             name = "Paradim"
@@ -47,11 +48,11 @@ class App extends Component {
               name = "string"
               type = {TYPE.JOINT_DISTANCE}
               bodies = {['roof', 'bola0']}
-              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 200, z: 0}]}
+              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 100, z: 0}]}
               axes = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
-              limits = {[45, 50]}
+              limits = {[500, 550]}
               stiffness = {0.2}
-              damping = {0.8}
+              damping = {0.2}
             />
           </World>
         </ThreeApp>
