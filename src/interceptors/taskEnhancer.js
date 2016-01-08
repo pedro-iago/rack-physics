@@ -32,12 +32,11 @@ function TaskReducerWith(queuer = (arr, el) => arr.concat(el)){
 
 function liftStoreWith(store, sagas, TaskReducer) {
   const liftedStore = createStore(TaskReducer);
-  const getState = store.getState;
   const dispatch = (action) => {
     store.dispatch(action);
     liftedStore.dispatch(dequeue());
   }
-  const report = sagaMiddleware(...sagas)({dispatch, getState})(() => {});
+  const report = sagaMiddleware(...sagas)({...store, dispatch})(() => {});
   const post = (action) => {
     liftedStore.dispatch(queue(action));
     report(liftedStore.getState());

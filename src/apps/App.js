@@ -24,7 +24,7 @@ class App extends Component {
   }
   componentWillMount(){
     this.setState({
-      boxes: this._randomSpheres(100)
+      boxes: this._randomSpheres(17)
     });
   }
   render() {
@@ -35,6 +35,7 @@ class App extends Component {
           <World
             name = "Paradim"
             G = {10}
+            iterations = {2}
           >
             {this.state.boxes}
             <Body
@@ -48,7 +49,7 @@ class App extends Component {
               name = "string"
               type = {TYPE.JOINT_DISTANCE}
               bodies = {['roof', 'bola0']}
-              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 100, z: 0}]}
+              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 10, z: 0}]}
               axes = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
               limits = {[500, 550]}
               stiffness = {0.2}

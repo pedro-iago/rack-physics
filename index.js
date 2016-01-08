@@ -20,6 +20,7 @@ ReactDOM.render(
 // }
 // requestAnimationFrame(render);
 
+// //this is pretty interesting in that it makes the result dispatch to run in the requestAnimationFrame of react-three-renderer
 // let ReactUpdates = require('react/lib/ReactUpdates');
 // var fcfsBatchingStrategy = {
 //   isBatchingUpdates: true,
