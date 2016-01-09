@@ -14,7 +14,6 @@ import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
 
 // physics world
-var id = undefined;
 var world = new OIMO.World();
 var bodies = [];
 var joints = [];
@@ -24,13 +23,12 @@ var joints = [];
 //--------------------------------------------------
 
 self.onmessage = ({data: action}) =>
-  self.postMessage({ type: action.type, meta: id, payload: run(action) });
+  self.postMessage({ type: action.type, meta: action.meta, payload: run(action) });
 
-function run({type, payload}){
+function run({type, meta, payload}){
   switch(type){
-    case TYPE.SPAWN: return id = payload;
-    case TYPE.SUBSCRIBE: return SUBSCRIBE(payload);
-    case TYPE.STEP: return STEP(payload);
+    case TYPE.SETUP: return SETUP(payload, meta);
+    case TYPE.LOOP: return LOOP(payload, meta);
   }
 }
 
@@ -42,7 +40,7 @@ function run({type, payload}){
 //then call this every step, to use that and make step also a pure function
 //the only state that seems hard to internalize for now is id... maybe I should always re-send the id? -seems reasonable
 //I think maybe subscribe is the hardest one, since there is a lot of internal state on oimo that needs to be extracted and re-feeded each time
-function SUBSCRIBE(objects){
+function SETUP(objects, id){
   let subscribed = {};
   for(const key in objects){
     let object  = {...objects[key], name: key};
@@ -58,7 +56,7 @@ function SUBSCRIBE(objects){
 //   WORLD UPDATE
 //--------------------------------------------------
 
-var STEP = function(objects){
+var LOOP = function(objects, id){
   //TODO: figure out a way of using these objects instead (they could pottentially have changes over my step version)
   world.step();
   let payload = {};

@@ -1,1 +1,1 @@
-export {spawn, init, subscribe, step, terminate} from './worker';
+export {spawn, setup, loop, terminate} from './worker';

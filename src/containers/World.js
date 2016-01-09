@@ -1,12 +1,12 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Namespace, Provide, Subscribe, Worker, Root } from '../hocs';
+import { Namespace, Provide, View, Worker, Root } from '../hocs';
 import { OimoBody, OimoJoint, OimoWorld } from '../components';
 import { OimoCmd } from '../workers';
 
-export const World = compose(Provide, Root, Namespace, Worker(OimoCmd), Subscribe)(OimoWorld);
-export const Body = compose(Namespace, Subscribe)(OimoBody);
-export const Joint = compose(Namespace, Subscribe)(OimoJoint);
+export const World = compose(Provide, Root, Namespace, Worker(OimoCmd), View)(OimoWorld);
+export const Body = compose(Namespace, View)(OimoBody);
+export const Joint = compose(Namespace, View)(OimoJoint);
 
 export default World;

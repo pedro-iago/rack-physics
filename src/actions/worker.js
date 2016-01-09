@@ -1,4 +1,4 @@
-import {SPAWN, SUBSCRIBE, STEP, TERMINATE} from '../Macros';
+import {SPAWN, SETUP, LOOP, TERMINATE} from '../Macros';
 
 export function spawn( creators ){
   return {
@@ -7,16 +7,16 @@ export function spawn( creators ){
   };
 }
 
-export function subscribe( objects ){
+export function setup( objects ){
   return {
-    type: SUBSCRIBE,
+    type: SETUP,
     payload: objects
   };
 }
 
-export function step( objects ){
+export function loop( objects ){
   return {
-    type: STEP,
+    type: LOOP,
     payload: objects
   };
 }

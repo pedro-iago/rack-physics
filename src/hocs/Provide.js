@@ -1,8 +1,6 @@
 import React, {Component, PropTypes as _} from 'react';
-import {applyMiddleware, createStore, combineReducers, compose} from 'redux';
+import {createStore, combineReducers, compose} from 'redux';
 import {persistState} from 'redux-devtools';
-import {batchedSubscribe} from 'redux-batched-subscribe';
-import {unstable_batchedUpdates as batchedUpdates} from 'react-dom';
 import {taskEnhancer} from '../interceptors';
 import DevTools from '../apps/DevTools';
 import * as reducers from '../reducers';

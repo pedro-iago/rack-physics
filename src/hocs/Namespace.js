@@ -6,7 +6,7 @@ const Namespace = BaseComponent => {
   const Wrapped = wrap(BaseComponent);
   class Wrapper extends Component {
     static contextTypes = {
-      id: _.string
+      id: _.string.isRequired
     }
     static childContextTypes = {
       id: _.string

@@ -1,21 +1,20 @@
 import React, {Component, PropTypes as _} from 'react';
 import {store} from './Provide';
-import {subscribe} from '../actions/worker';
+import {setup} from '../actions/worker';
 import {wrapDisplayName, wrap} from '../utils/HocUtils';
-import pick from 'lodash.pick';
 
-const Subscribe = BaseComponent => {
+const View = BaseComponent => {
 
   const Wrapped = wrap(BaseComponent);
   class Wrapper extends Component {
     static contextTypes = {
-      id: _.string,
-      state: _.any
+      id: _.string.isRequired,
+      state: _.any.isRequired
     }
     componentWillMount() {
       const {children, ...initial} = this.props;
       const {id} = this.context;
-      store.dispatch( subscribe({ [id]: initial }) );
+      store.dispatch( setup({ [id]: initial }) );
     }
     render() {
       const {children, ...initial} = this.props;
@@ -24,11 +23,11 @@ const Subscribe = BaseComponent => {
     }
   }
 
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Subscribe');
+  Wrapper.displayName = wrapDisplayName(BaseComponent, 'View');
   Wrapper.propTypes = BaseComponent.propTypes;
   Wrapper.defaultProps = BaseComponent.defaultProps;
 
   return Wrapper;
 }
 
-export default Subscribe;
+export default View;

@@ -13,7 +13,7 @@ OimoWorld.propTypes = {
 };
 
 OimoWorld.defaultProps = {
-  G: 4,
+  G: 10,
   iterations: 8,
   timestep: 1/60,
   broadphase: SWEEP
