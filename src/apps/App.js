@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provide } from '../hocs';
+import { RoofWithPendulum } from '../components';
 import World, { Body, Joint } from '../containers/World';
 import * as TYPE from '../Macros';
 import { ThreeApp, DevTools } from './index';
@@ -38,23 +39,7 @@ class App extends Component {
             iterations = {2}
           >
             {this.state.boxes}
-            <Body
-              name = "roof"
-              type = {TYPE.BOX}
-              pos = {{y: 0}}
-              dim = {{width: 800, height: 10, depth: 300}}
-              move = {false}
-            />
-            <Joint
-              name = "string"
-              type = {TYPE.JOINT_DISTANCE}
-              bodies = {['roof', 'bola0']}
-              anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 10, z: 0}]}
-              axes = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
-              limits = {[500, 550]}
-              stiffness = {0.2}
-              damping = {0.2}
-            />
+            <RoofWithPendulum/>
           </World>
         </ThreeApp>
       </div>
