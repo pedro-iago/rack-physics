@@ -7,7 +7,6 @@
 
 /* global self */
 'use strict';
-import pick from 'lodash.pick';
 import OIMO from '../utils/Oimo';
 import { Vec3 } from '../utils/VectorUtils';
 import { uniqueUnion, getParent } from '../hocs/Namespace';

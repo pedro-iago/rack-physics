@@ -36,7 +36,8 @@ class App extends Component {
           <World
             name = "Paradim"
             G = {10}
-            iterations = {2}
+            iterations = {8}
+            timestep = {1/60}
           >
             {this.state.boxes}
             <RoofWithPendulum/>
