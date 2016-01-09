@@ -17,7 +17,7 @@ class App extends Component {
         key: 'bola'+i,
         name: 'bola'+i,
         type: TYPE.SPHERE,
-        pos: {x: 500*Math.random() - 250, y: 100*Math.random() - 200, z: 200*Math.random() - 100},
+        pos: {x: 500*Math.random() - 250, y: 500*Math.random() - 1000, z: 200*Math.random() - 100},
         dim: {radius: 20}
       });
     }
