@@ -3,7 +3,7 @@ export const SPHERE = 'sphere';
 export const CYLINDER = 'cylinder';
 
 export const JOINT_DISTANCE = 'jointDistance';
-export const JOINT_BALL_AND_SOCKET = "jointBallAndSocket";
+export const JOINT_BALL_AND_SOCKET = "jointBall";
 export const JOINT_HINGE = 'jointHinge';
 export const JOINT_WHEEL = 'jointWheel';
 export const JOINT_SLIDER = 'jointSlider';

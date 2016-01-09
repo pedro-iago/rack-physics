@@ -59,8 +59,8 @@ var LOOP = function(objects, id){
   }
   for (const key in joints) {
     const joint = joints[key];
-    const ap1 = Vec3.scale(joint.pivotA, 1);
-    const ap2 = Vec3.scale(joint.pivotB, 1);
+    const ap1 = Vec3.scale(joint.bodyA.position, 1);
+    const ap2 = Vec3.scale(joint.bodyB.position, 1);
     payload = { ...payload, [key]: {anchors: [ap1, ap2]} };
   }
   return payload;
@@ -131,8 +131,9 @@ var addJoint = function({name, type, bodies: bodiesNames, anchors, limits, axis,
   const axisB = new CANNON.Vec3(axis[1].x, axis[1].y, axis[1].z);
   let j;
   switch(type){
-    case TYPE.JOINT_DISTANCE: j = new CANNON.PointToPointConstraint(bodyA, pivotA, bodyB, pivotB, maxForce); break;
+    case TYPE.JOINT_BALL_AND_SOCKET: j = new CANNON.PointToPointConstraint(bodyA, pivotA, bodyB, pivotB, maxForce); break;
     case TYPE.JOINT_HINGE: j = new CANNON.HingeConstraint(bodyA, bodyB, {pivotA, pivotB, axisA, axisB, maxForce}); break;
+    case TYPE.JOINT_DISTANCE: j = new CANNON.DistanceConstraint(bodyA, bodyB, limits[0], maxForce); break;
   }
   world.addConstraint(j);
   if( type === TYPE.JOINT_DISTANCE )

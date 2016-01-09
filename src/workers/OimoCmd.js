@@ -3,16 +3,13 @@
 //   0.1 to 10 meters max for dynamique body
 //   size and position x100 for three.js
 //---------------------------------------------------
-//TODO substitute .indexOf() >= 0 by .include() as soon as babel 6 is stable
 
-/* global self */
 'use strict';
 import OIMO from '../utils/Oimo';
 import { Vec3 } from '../utils/VectorUtils';
 import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
 
-// physics world
 var world = new OIMO.World();
 var bodies = [];
 var joints = [];
@@ -35,10 +32,6 @@ function run({type, meta, payload}){
 //   ADD SOMETING ON FLY
 //--------------------------------------------------
 
-//TODO make this a pure function that returns world and objects
-//then call this every step, to use that and make step also a pure function
-//the only state that seems hard to internalize for now is id... maybe I should always re-send the id? -seems reasonable
-//I think maybe subscribe is the hardest one, since there is a lot of internal state on oimo that needs to be extracted and re-feeded each time
 function SETUP(objects, id){
   let subscribed = {};
   for(const key in objects){
@@ -48,7 +41,7 @@ function SETUP(objects, id){
         TYPE.BODIES.indexOf(object.type) >= 0 && addBody(object)  )
       subscribed[key] = {...objects[key], visible: true};
   }
-  return subscribed; //I should rather return the ones that were added
+  return subscribed;
 }
 
 //--------------------------------------------------
@@ -56,7 +49,6 @@ function SETUP(objects, id){
 //--------------------------------------------------
 
 var LOOP = function(objects, id){
-  //TODO: figure out a way of using these objects instead (they could pottentially have changes over my step version)
   world.step();
   let payload = {};
   for (const body of bodies) {
@@ -135,7 +127,7 @@ var addJoint = function({name, type, bodies, anchors, limits, axis, damping, sti
   const max = limits[1];
   const limit = limits;
   const spring = [1/stiffness, damping];
-  var j = world.add({name, type, body1, body2, axe1, axe2, pos1, pos2, spring, allowCollision: true});
+  var j = world.add({name, type, body1, body2, axe1, axe2, pos1, pos2, spring, min, max, allowCollision: true});
   if( type === TYPE.JOINT_DISTANCE )
     joints.push(j);
   return j.type !== OIMO.JOINT_NULL;
