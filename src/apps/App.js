@@ -10,22 +10,23 @@ class App extends Component {
   state = {
     boxes: null
   }
-  _randomSpheres(ammount){
+  types = [TYPE.CYLINDER, TYPE.SPHERE, TYPE.BOX]
+  _randomBodies(ammount){
     let specs = [];
     for(let i = 0; i<ammount; i++){
       specs.push({
-        key: 'bola'+i,
-        name: 'bola'+i,
-        type: TYPE.SPHERE,
+        key: 'body'+i,
+        name: 'body'+i,
+        type: this.types[Math.floor(3*Math.random())],
         pos: {x: 500*Math.random() - 250, y: 500*Math.random() - 1000, z: 200*Math.random() - 100},
-        dim: {radius: 20}
+        dim: {width: 20, height: 20, depth: 20, radius: 15}
       });
     }
     return specs.map((props) => <Body {...props}/>);
   }
   componentWillMount(){
     this.setState({
-      boxes: this._randomSpheres(17)
+      boxes: this._randomBodies(20)
     });
   }
   render() {
