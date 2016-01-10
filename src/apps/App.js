@@ -42,7 +42,9 @@ class App extends Component {
             {this.state.boxes}
             <RoofWithPendulum
               name = "thing"
-              pos = {{x: 250}}  //relative view or absolute view dilema! what is more useful to the workers?
+              pos = {{x: 250}}
+              {/*relative view or absolute view dilema! what is more useful to the workers?
+              in a sensor point of view, every measure is relative, so workers should too*/}
             />
           </World>
         </ThreeApp>
