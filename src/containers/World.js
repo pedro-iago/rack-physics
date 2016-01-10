@@ -12,14 +12,15 @@ export const Joint = compose(Namespace, View)(OimoJoint);
 // //Proof of Concept
 // import { Hcsr04Sim, Pic18fSim } from '../workers';
 // import { Worker, Custom } from '../hocs';
-// const Box = (props) => <Body {...props} type = TYPE.BOX>;
-// const Cylinder = (props) => <Body {...props} type = TYPE.CYLINDER>;
+// const Box = (props) => <Body {...props} type = TYPE.BOX/>;
+// const Cylinder = (props) => <Body {...props} type = TYPE.CYLINDER/>;
 // const Car = (props) =>
 //   <Body
 //     pos={props.pos}
 //     name={props.name}
 //     qua={props.qua}
 //   >
+//     {props.children}
 //     <Box {...}/>; //dumbest car eva
 //     <Cylinder {...}/>;
 //     <Cylinder {...}/>;

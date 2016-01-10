@@ -64,6 +64,7 @@ function TaskReducerWith(queuer = (arr, el) => arr.concat(el)){
   };
 }
 
+//Consider giving priority to SPAWN over SETUP or maybe just using a Ordered Map and let user handle execution order
 function queuer(state, action){
   const last = state.length? state[state.length - 1] : undefined;
   if(last && last.type === action.type)

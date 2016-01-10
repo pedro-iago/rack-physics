@@ -32,4 +32,7 @@ const RoofWithPendulum = (props) =>
     />
   </Body>
 
+RoofWithPendulum.propTypes = Body.propTypes;
+RoofWithPendulum.defaultProps = Body.defaultProps;  
+
 export default RoofWithPendulum;
