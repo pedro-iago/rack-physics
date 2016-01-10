@@ -27,7 +27,6 @@ class ThreeApp extends Component {
   _onAnimate = () => {
     store.dispatch( loop() );
     this.controls.update();
-    //console.log("request");
   }
   componentWillUnmount() {
     this.controls.dispose();
