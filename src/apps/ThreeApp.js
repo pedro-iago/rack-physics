@@ -9,8 +9,14 @@ import {TrackballControls} from '../utils';
 class ThreeApp extends Component {
   state = {
     mainCameraPosition: new THREE.Vector3(0, 0, 1000),
+    width: window.innerWidth,
+    height: window.innerHeight
   }
   componentDidMount() {
+    window.addEventListener('resize', () => this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight
+    }));
     const controls = new TrackballControls(this.refs.mainCamera, ReactDOM.findDOMNode(this.refs.react3));
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
@@ -33,14 +39,13 @@ class ThreeApp extends Component {
     delete this.controls;
   }
   render() {
-    const {mainCameraPosition} = this.state;
-    const {innerWidth, innerHeight} = window;
+    const {mainCameraPosition, width, height} = this.state;
     return (
       <React3
         ref="react3"
         mainCamera="camera"
-        width={innerWidth}
-        height={innerHeight}
+        width={width}
+        height={height}
         onAnimate={this._onAnimate}
       >
         <scene>
