@@ -22,7 +22,7 @@ const Transform = BaseComponent => {
   Wrapper.defaultProps = {
     ...BaseComponent.defaultProps,
     pos: {x: 0, y: 0, z: 0},
-    qua: {x: 0, y: 0, z: 0, w: 0}
+    qua: {x: 0, y: 0, z: 0, w: 1}
   };
 
   return Wrapper;

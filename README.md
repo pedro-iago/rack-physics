@@ -16,7 +16,7 @@ TODO: Check support for relative positioning in both Cannon and Oimo. They shoul
 Maybe looking at how Unity deals with Transforms will give me an insight
 That's my idea: each worker will receive the relative view on the loop, flat but nested by the keys.
 The first thing each worker does is to switch every object it receives into his local coordinates.
-(that essentially binds Worker with Body) perhaps OimoBody should be made to look more like OimoJoint, and Body should be made a hoc 
+(that essentially binds Worker with Body) perhaps OimoBody should be made to look more like OimoJoint, and Body should be made a hoc
 
 ============================
 
