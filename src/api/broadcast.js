@@ -3,7 +3,7 @@ import mapValues from 'lodash.mapValues';
 import message from './message';
 
 async function broadcast(targets, data){
-  const responses = await* Object.values(mapValues(targets, (target, id) => message(target, filter(data, id))));
+  const responses = await Promise.all(Object.values(mapValues(targets, (target, id) => message(target, filter(data, id)))));
   const type = data.type;
   const meta = responses.map( (response) => response.meta );
   let payload = {};

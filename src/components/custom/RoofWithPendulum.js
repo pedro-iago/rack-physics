@@ -1,10 +1,12 @@
 import React, { PropTypes as _ } from 'react';
-import _c from '../utils/CustomPropTypes';
-import { Body, Joint } from '../containers/World';
-import * as TYPE from '../Macros';
+import _c from '~/utils/CustomPropTypes';
+import { Body, Joint } from '~/containers/World';
+import * as TYPE from '~/Macros';
 
-const RoofWithPendulum = () =>
-  <object3D>
+const RoofWithPendulum = (props) =>
+  <Body
+    {...props}
+  >
     <Body
       name = "roof"
       type = {TYPE.BOX}
@@ -28,6 +30,6 @@ const RoofWithPendulum = () =>
       stiffness = {0.2}
       damping = {0.2}
     />
-  </object3D>
+  </Body>
 
 export default RoofWithPendulum;

@@ -10,17 +10,17 @@ const View = BaseComponent => {
     static contextTypes = {
       id: _.string.isRequired,
       state: _.any.isRequired
-    }
+    };
     componentWillMount() {
       const {children, ...initial} = this.props;
       const {id} = this.context;
       store.dispatch( setup({ [id]: initial }) );
-    }
+    };
     render() {
       const {children, ...initial} = this.props;
       const {id, state} = this.context;
       return Wrapped({ ...initial, ...state[id], children });
-    }
+    };
   }
 
   Wrapper.displayName = wrapDisplayName(BaseComponent, 'View');

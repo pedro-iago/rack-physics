@@ -11,7 +11,7 @@ class ThreeApp extends Component {
     mainCameraPosition: new THREE.Vector3(0, 0, 1000),
     width: window.innerWidth,
     height: window.innerHeight
-  }
+  };
   componentDidMount() {
     window.addEventListener('resize', () => this.setState({
       width: window.innerWidth,
@@ -29,15 +29,15 @@ class ThreeApp extends Component {
       mainCameraPosition: this.refs.mainCamera.position
     }));
     this.controls = controls;
-  }
+  };
   _onAnimate = () => {
     store.dispatch( loop() );
     this.controls.update();
-  }
+  };
   componentWillUnmount() {
     this.controls.dispose();
     delete this.controls;
-  }
+  };
   render() {
     const {mainCameraPosition, width, height} = this.state;
     return (
@@ -62,7 +62,7 @@ class ThreeApp extends Component {
         </scene>
       </React3>
     );
-  }
+  };
 }
 
 export default ThreeApp;

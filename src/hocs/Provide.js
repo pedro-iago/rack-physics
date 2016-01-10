@@ -23,13 +23,13 @@ const Provide = BaseComponent => {
   class Wrapper extends Component {
     static childContextTypes = {
       store: _.any
-    }
+    };
     getChildContext() {
       return {store: store};
-    }
+    };
     render() {
       return Wrapped(this.props);
-    }
+    };
   }
 
   Wrapper.displayName = wrapDisplayName(BaseComponent, 'Provide');

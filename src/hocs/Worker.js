@@ -9,18 +9,18 @@ const Worker = creator => BaseComponent => {
   class Wrapper extends Component {
     static contextTypes = {
       id: _.string.isRequired
-    }
+    };
     componentWillMount() {
       const {id} = this.context;
       store.dispatch( spawn({ [id]: creator }) );
-    }
+    };
     componentWillUnmount() {
       const {id} = this.context;
       store.dispatch( terminate(id) );
-    }
+    };
     render() {
       return Wrapped(this.props);
-    }
+    };
   }
 
   Wrapper.displayName = wrapDisplayName(BaseComponent, 'Worker');

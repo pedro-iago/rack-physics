@@ -7,18 +7,18 @@ const Namespace = BaseComponent => {
   class Wrapper extends Component {
     static contextTypes = {
       id: _.string.isRequired
-    }
+    };
     static childContextTypes = {
       id: _.string
-    }
+    };
     getChildContext() {
       return {
         id: uniqueUnion(this.props.name, this.context.id)
-      }
-    }
+      };
+    };
     render() {
       return Wrapped(this.props);
-    }
+    };
   }
 
   Wrapper.displayName = wrapDisplayName(BaseComponent, 'Namespace');

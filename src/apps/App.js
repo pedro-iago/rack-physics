@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { Provide } from '../hocs';
-import { RoofWithPendulum } from '../components';
+import { store } from '../hocs/Provide';
+import { RoofWithPendulum } from '../components/custom';
 import World, { Body, Joint } from '../containers/World';
 import * as TYPE from '../Macros';
 import { ThreeApp, DevTools } from './index';
 
-@Provide
 class App extends Component {
   state = {
     boxes: null
-  }
-  types = [TYPE.CYLINDER, TYPE.SPHERE, TYPE.BOX]
+  };
+  types = [TYPE.CYLINDER, TYPE.SPHERE, TYPE.BOX];
   _randomBodies(ammount){
     let specs = [];
     for(let i = 0; i<ammount; i++){
@@ -23,16 +22,16 @@ class App extends Component {
       });
     }
     return specs.map((props) => <Body {...props}/>);
-  }
+  };
   componentWillMount(){
     this.setState({
       boxes: this._randomBodies(20)
     });
-  }
+  };
   render() {
     return (
       <div id = "App">
-        <DevTools/>
+        <DevTools store = {store}/>
         <ThreeApp>
           <World
             name = "Paradim"
@@ -41,12 +40,14 @@ class App extends Component {
             timestep = {1/60}
           >
             {this.state.boxes}
-            <RoofWithPendulum/>
+            <RoofWithPendulum
+              name = "thing"
+            />
           </World>
         </ThreeApp>
       </div>
     );
-  }
+  };
 };
 
 export default App;

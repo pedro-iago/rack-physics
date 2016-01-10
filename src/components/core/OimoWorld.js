@@ -1,5 +1,5 @@
 import React, { PropTypes as _ } from 'react';
-import { BRUTE, SWEEP, TREE } from '../Macros';
+import { BRUTE, SWEEP, TREE } from '~/Macros';
 
 const OimoWorld = ({children}) =>
   <object3D>{children}</object3D>;

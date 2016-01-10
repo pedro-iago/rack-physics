@@ -32,8 +32,8 @@ function SETUP(objects, id){
   for(const key in objects){
     let object  = {...objects[key], name: key};
     if( key === id && init(object) ||
-        TYPE.JOINTS.indexOf(object.type) >= 0 && addJoint(object) ||
-        TYPE.BODIES.indexOf(object.type) >= 0 && addBody(object)  )
+        TYPE.JOINTS.includes(object.type) && addJoint(object) ||
+        TYPE.BODIES.includes(object.type) && addBody(object)  )
       subscribed[key] = {...objects[key], visible: true};
   }
   return subscribed;
