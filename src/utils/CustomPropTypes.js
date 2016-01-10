@@ -6,9 +6,16 @@ const vec3 = _.shape({
   z: _.number,
 });
 
+const vec4 = _.shape({
+  x: _.number,
+  y: _.number,
+  z: _.number,
+  w: _.number
+});
+
 const pose = _.shape({
   pos: vec3,
-  rot: vec3
+  qua: vec4
 });
 
 const worldSettings = _.shape({
@@ -29,10 +36,10 @@ const dim = _.shape({
 
 const CustomPropTypes = {
   vec3,
+  vec4,
   pose,
   worldSettings,
   dim
 };
 
-//I prefer to import _c from './CustomPropTypes';
 export default CustomPropTypes;

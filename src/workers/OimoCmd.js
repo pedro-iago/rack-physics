@@ -6,7 +6,7 @@
 
 'use strict';
 import OIMO from '../utils/Oimo';
-import { Vec3 } from '../utils/VectorUtils';
+import { Vec3, Vec4 } from '../utils/VectorUtils';
 import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
 
@@ -54,8 +54,8 @@ var LOOP = function(objects, id){
   for (const body of bodies) {
     if(!body.sleeping){
       const pos = Vec3.scale(body.position, OIMO.WORLD_SCALE);
-      const rot = Vec3.scale(body.getRotation(), 180/OIMO.PI);
-      payload = { ...payload, [body.name]: {pos, rot} };
+      const qua = Vec4.scale(body.getQuaternion(), 1);
+      payload = { ...payload, [body.name]: {pos, qua} };
     }
   }
   for (const joint of joints) {
@@ -96,9 +96,10 @@ function init( {G, iterations, timestep, broadphase} ){
 //    BASIC OBJECT
 //--------------------------------------------------
 
-var addBody = function( {name, type, pos, rot, dim, density, friction, restituition, move} ){
-  pos = [pos.x, pos.y, pos.z];
-  rot = [rot.x, rot.y, rot.z];
+var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, move} ){
+  const position = [pos.x, pos.y, pos.z];
+  const rot = Vec3.scale(Vec4.toEuler(qua), 180/OIMO.PI);
+  const rotation = [rot.x, rot.y, rot.z];
   const {width, height, depth, radius} = dim;
   let size = [];
   switch(type){
@@ -106,7 +107,7 @@ var addBody = function( {name, type, pos, rot, dim, density, friction, restituit
     case TYPE.SPHERE: size = [radius]; break;
     case TYPE.CYLINDER: size = [height, radius]; break;
   }
-  var b = world.add( {name, type, pos, rot, size, density, friction, restituition, move} );
+  var b = world.add( {name, type, pos: position, rot: rotation, size, density, friction, restituition, move} );
   bodies.push(b);
   return b.type !== OIMO.BODY_NULL;
 }

@@ -1,6 +1,6 @@
 'use strict';
 import CANNON from 'cannon';
-import { Vec3 } from '../utils/VectorUtils';
+import { Vec3, Vec4 } from '../utils/VectorUtils';
 import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
 
@@ -51,10 +51,8 @@ var LOOP = function(objects, id){
     const body = bodies[key];
     if(body.sleepState !== CANNON.Body.SLEEPING){
       const pos = Vec3.scale(body.position, 1);
-      let rot = new CANNON.Vec3(0,0,0);
-      body.quaternion.toEuler(rot);
-      rot = Vec3.scale(rot, 180/3.14);
-      payload = { ...payload, [key]: {pos, rot} };
+      const qua = Vec4.scale(body.quaternion, 1);
+      payload = { ...payload, [key]: {pos, qua} };
     }
   }
   for (const key in joints) {
@@ -98,10 +96,9 @@ function init( {G, iterations, timestep, broadphase} ){
 //    BASIC OBJECT
 //--------------------------------------------------
 
-var addBody = function( {name, type, pos, rot, dim, density, friction, restituition, move} ){
+var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, move} ){
   const position = new CANNON.Vec3(pos.x, pos.y, pos.z);
-  const quaternion = new CANNON.Quaternion(0, 0, 0, 0);
-  quaternion.setFromEuler(rot.x, rot.y, rot.z);
+  const quaternion = new CANNON.Quaternion(qua.x, qua.y, qua.z, qua.w);
   const {width, height, depth, radius} = dim;
   let shape;
   switch(type){
