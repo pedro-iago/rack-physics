@@ -1,9 +1,9 @@
 import React, { PropTypes as _ } from 'react';
 import _c from '~/utils/CustomPropTypes';
-import { JOINTS } from '~/Macros';
 import { JointGeometry } from './geometries';
 
-const OimoJoint = ( { type, anchors, limits, visible } ) =>
+//TODO: conditional mesh denpending on the type (line, points, mesh)
+const JointMesh = ( { type, anchors, limits, visible } ) =>
   <line
     visible = {visible}
   >
@@ -16,8 +16,8 @@ const OimoJoint = ( { type, anchors, limits, visible } ) =>
     />
   </line>
 
-OimoJoint.propTypes = {
-  type: _.oneOf(JOINTS).isRequired,
+JointMesh.propTypes = {
+  type: _.any.isRequired,
   bodies: _.arrayOf(_.string.isRequired).isRequired,
   anchors: _.arrayOf(_c.vec3.isRequired),
   axis: _.arrayOf(_c.vec3.isRequired),
@@ -29,7 +29,7 @@ OimoJoint.propTypes = {
   visible: _.bool
 }
 
-OimoJoint.defaultProps = {
+JointMesh.defaultProps = {
   anchors: [ {x: 0, y: 0, z: 0}, {x: 0, y: 0, z: 0} ],
   axis: [ {x: 0, y: 0, z: 0}, {x: 0, y: 0, z: 0} ],
   limits: [ 0, 1000 ],
@@ -40,4 +40,4 @@ OimoJoint.defaultProps = {
   visible: false
 }
 
-export default OimoJoint;
+export default JointMesh;

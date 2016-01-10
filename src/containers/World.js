@@ -1,13 +1,12 @@
 import React from 'react';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Namespace, Provide, View, Worker, Root } from '../hocs';
-import { OimoBody, OimoJoint, OimoWorld } from '../components/core';
-import { OimoCmd as PhysicsCmd } from '../workers';
+import { Namespace, Provide, View, Worker, Root, Transform } from '../hocs';
+import { BodyMesh, JointMesh, WorldMesh } from '../components/core';
+import { CannonCmd as PhysicsCmd } from '../workers';
 
-export const World = compose(Provide, Root, Namespace, Worker(PhysicsCmd), View)(OimoWorld);
-export const Body = compose(Namespace, View)(OimoBody);
-export const Joint = compose(Namespace, View)(OimoJoint);
+export const World = compose(Provide, Root, Namespace, Worker(PhysicsCmd), View, Transform)(WorldMesh);
+export const Body = compose(Namespace, View, Transform)(BodyMesh);
+export const Joint = compose(Namespace, View)(JointMesh);
 
 // //Proof of Concept
 // import { Hcsr04Sim, Pic18fSim } from '../workers';

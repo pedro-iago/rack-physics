@@ -1,10 +1,10 @@
 import React, { PropTypes as _ } from 'react';
 import { BRUTE, SWEEP, TREE } from '~/Macros';
 
-const OimoWorld = ({children}) =>
+const WorldMesh = ({children}) =>
   <object3D>{children}</object3D>;
 
-OimoWorld.propTypes = {
+WorldMesh.propTypes = {
   children: _.any,
   G: _.number,
   iterations: _.number,
@@ -12,11 +12,11 @@ OimoWorld.propTypes = {
   broadphase: _.oneOf([BRUTE, SWEEP, TREE])
 };
 
-OimoWorld.defaultProps = {
+WorldMesh.defaultProps = {
   G: 10,
   iterations: 8,
   timestep: 1/60,
   broadphase: SWEEP
 }
 
-export default OimoWorld;
+export default WorldMesh;

@@ -1,3 +1,3 @@
-export OimoJoint from './OimoJoint';
-export OimoBody from './OimoBody';
-export OimoWorld from './OimoWorld';
+export JointMesh from './JointMesh';
+export BodyMesh from './BodyMesh';
+export WorldMesh from './WorldMesh';
