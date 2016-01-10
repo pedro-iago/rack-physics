@@ -11,7 +11,7 @@ const RoofWithPendulum = (props) =>
       name = "roof"
       type = {TYPE.BOX}
       pos = {{y: 0}}
-      dim = {{width: 800, height: 10, depth: 300}}
+      dim = {{width: 500, height: 10, depth: 300}}
       move = {false}
     />
     <Body
@@ -33,6 +33,6 @@ const RoofWithPendulum = (props) =>
   </Body>
 
 RoofWithPendulum.propTypes = Body.propTypes;
-RoofWithPendulum.defaultProps = Body.defaultProps;  
+RoofWithPendulum.defaultProps = Body.defaultProps;
 
 export default RoofWithPendulum;
