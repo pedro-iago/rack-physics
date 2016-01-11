@@ -3,6 +3,7 @@ import {SPAWN, SETUP, LOOP, TERMINATE} from '../Macros';
 import {spawn, setup, loop, terminate} from '../actions/worker';
 import {message, broadcast} from '../api';
 import {Vec3, Quat} from '../utils/VectorUtils';
+import THREE from 'three.js';
 import pick from 'lodash.pick';
 import mapValues from 'lodash.mapValues';
 
@@ -41,8 +42,12 @@ function* fetchTerminate( workers ){
 
 function toJSON( view ){
   return mapValues(view, object => {
-    const pos = Vec3.scale(object.position, 1);
-    const qua = Quat.scale(object.quaternion, 1);
+    var position = new THREE.Vector3();
+    position.setFromMatrixPosition( object.matrixWorld );
+    var quaternion = new THREE.Quaternion();
+    quaternion.setFromRotationMatrix( object.matrixWorld );
+    const pos = Vec3.scale(position, 1);
+    const qua = Quat.scale(quaternion, 1);
     const {name, ...physics} = object.userData.rack;
     const mesh = object.getObjectByName(name);
     if(mesh){
@@ -52,5 +57,15 @@ function toJSON( view ){
     return { ...physics, visible, dynamic, pos, qua };
   })
 }
+
+// just need to hold a reference and use it here
+// function toLocal( world ){
+//   const {pos, qua, ...rest} = world;
+//   var position = new THREE.Vector3();
+//   position.setFromMatrixPosition( object.matrixWorld );
+//   var quaternion = new THREE.Quaternion();
+//   quaternion.setFromRotationMatrix( object.matrixWorld );
+//   return local;
+// }
 
 export default root;
