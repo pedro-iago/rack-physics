@@ -1,11 +1,8 @@
 import React, {Component, PropTypes as _} from 'react';
 import {store} from './Provide';
 import {spawn, terminate} from '../actions/worker';
-import {wrapDisplayName, wrap} from '../utils/HocUtils';
 
-const Worker = creator => BaseComponent => {
-
-  const Wrapped = wrap(BaseComponent);
+const Worker = creator => Wrapped => {
   class Wrapper extends Component {
     static contextTypes = {
       id: _.string.isRequired
@@ -19,14 +16,9 @@ const Worker = creator => BaseComponent => {
       store.dispatch( terminate(id) );
     };
     render() {
-      return Wrapped(this.props);
+      return <Wrapped {...this.props}/>;
     };
   }
-
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Worker');
-  Wrapper.propTypes = BaseComponent.propTypes;
-  Wrapper.defaultProps = BaseComponent.defaultProps;
-
   return Wrapper;
 }
 

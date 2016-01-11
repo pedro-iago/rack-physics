@@ -33,13 +33,19 @@ function run({type, meta, payload}){
 //--------------------------------------------------
 
 function SETUP(objects, id){
+  let waitlist = [];
   let subscribed = {};
   for(const key in objects){
     let object  = {...objects[key], name: key};
     if( key === id && init(object) ||
-        TYPE.JOINTS.includes(object.type) && addJoint(object) ||
         TYPE.BODIES.includes(object.type) && addBody(object)  )
       subscribed[key] = {...objects[key], visible: true};
+    else if( TYPE.JOINTS.includes(object.type) )
+      waitlist.push(object);
+  }
+  for(const j of waitlist){
+    if( addJoint(j) )
+      subscribed[j.name] = {...objects[j.name], visible: true};
   }
   return subscribed;
 }
@@ -96,7 +102,7 @@ function init( {G, iterations, timestep, broadphase} ){
 //    BASIC OBJECT
 //--------------------------------------------------
 
-var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, move} ){
+var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, dynamic} ){
   const position = [pos.x, pos.y, pos.z];
   const rot = Vec3.scale(Quat.toEuler(qua), 180/OIMO.PI);
   const rotation = [rot.x, rot.y, rot.z];
@@ -107,7 +113,7 @@ var addBody = function( {name, type, pos, qua, dim, density, friction, restituit
     case TYPE.SPHERE: size = [radius]; break;
     case TYPE.CYLINDER: size = [height, radius]; break;
   }
-  var b = world.add( {name, type, pos: position, rot: rotation, size, density, friction, restituition, move} );
+  var b = world.add( {name, type, pos: position, rot: rotation, size, density, friction, restituition, move: dynamic} );
   bodies.push(b);
   return b.type !== OIMO.BODY_NULL;
 }

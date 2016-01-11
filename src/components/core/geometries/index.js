@@ -1,2 +1,2 @@
-export JointGeometry from './JointGeometry';
 export BodyGeometry from './BodyGeometry';
+export JointGeometry from './JointGeometry';

@@ -2,14 +2,14 @@ import React, { PropTypes as _ } from 'react';
 import _c from '~/utils/CustomPropTypes';
 import { JointGeometry } from './geometries';
 
-const JointMesh = ( { type, vertices, name, visible } ) =>
+const JointMesh = ( { type, anchors, name, visible } ) =>
   <line
     name = {name}
     visible = {visible}
   >
     <JointGeometry
       type = {type}
-      vertices = {vertices}
+      vertices = {anchors}
     />
     <lineBasicMaterial
       color = {0xffff00}
@@ -18,7 +18,7 @@ const JointMesh = ( { type, vertices, name, visible } ) =>
 
 JointMesh.propTypes = {
   type: _.any.isRequired,
-  vertices: _.arrayOf(_c.vec3.isRequired).isRequired,
+  anchors: _.arrayOf(_c.vec3).isRequired,
   name: _.string.isRequired,
   visible: _.bool
 }

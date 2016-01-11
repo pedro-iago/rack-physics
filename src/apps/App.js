@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { store } from '../hocs/Provide';
 import { RoofWithPendulum } from '../components/custom';
-import World, { Body, Joint } from '../containers/World';
+import { Body, Joint, World } from '../containers';
 import * as TYPE from '../Macros';
 import { ThreeApp, DevTools } from './index';
 

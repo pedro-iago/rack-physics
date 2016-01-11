@@ -1,10 +1,10 @@
 import React, {Component, PropTypes as _} from 'react';
-import {wrapDisplayName, wrap} from '../utils/HocUtils';
 
-const Namespace = BaseComponent => {
-
-  const Wrapped = wrap(BaseComponent);
+const Namespace = Wrapped => {
   class Wrapper extends Component {
+    static propTypes = {
+      name: _.string.isRequired
+    };
     static contextTypes = {
       id: _.string.isRequired
     };
@@ -12,19 +12,12 @@ const Namespace = BaseComponent => {
       id: _.string
     };
     getChildContext() {
-      return {
-        id: uniqueUnion(this.props.name, this.context.id)
-      };
+      return { id: uniqueUnion(this.props.name, this.context.id) };
     };
     render() {
-      return Wrapped(this.props);
+      return <Wrapped {...this.props}/>;
     };
   }
-
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Namespace');
-  Wrapper.propTypes = BaseComponent.propTypes;
-  Wrapper.defaultProps = BaseComponent.defaultProps;
-
   return Wrapper;
 }
 

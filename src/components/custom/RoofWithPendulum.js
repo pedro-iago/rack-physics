@@ -1,6 +1,6 @@
 import React, { PropTypes as _ } from 'react';
 import _c from '~/utils/CustomPropTypes';
-import { Body, Joint } from '~/containers/World';
+import { Body, Joint } from '~/containers';
 import * as TYPE from '~/Macros';
 
 const RoofWithPendulum = (props) =>
@@ -12,7 +12,7 @@ const RoofWithPendulum = (props) =>
       type = {TYPE.BOX}
       pos = {{y: 0}}
       dim = {{width: 500, height: 10, depth: 300}}
-      move = {false}
+      dynamic = {false}
     />
     <Body
       name = "bola"
@@ -25,14 +25,11 @@ const RoofWithPendulum = (props) =>
       type = {TYPE.JOINT_DISTANCE}
       bodies = {['roof', 'bola']}
       anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 10, z: 0}]}
-      axes = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
+      axis = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
       limits = {[500, 550]}
       stiffness = {0.2}
       damping = {0.2}
     />
   </Body>
-
-RoofWithPendulum.propTypes = Body.propTypes;
-RoofWithPendulum.defaultProps = Body.defaultProps;
 
 export default RoofWithPendulum;

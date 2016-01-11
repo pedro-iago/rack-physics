@@ -5,7 +5,6 @@ import {taskEnhancer} from '../interceptors';
 import DevTools from '../apps/DevTools';
 import * as reducers from '../reducers';
 import * as sagas from '../sagas';
-import {wrapDisplayName, wrap} from '../utils/HocUtils';
 
 const reducer = combineReducers(reducers);
 const finalCreateStore = compose(
@@ -17,9 +16,7 @@ const finalCreateStore = compose(
 )(createStore);
 export const store = finalCreateStore(reducer);
 
-const Provide = BaseComponent => {
-
-  const Wrapped = wrap(BaseComponent);
+const Provide = Wrapped => {
   class Wrapper extends Component {
     static childContextTypes = {
       store: _.any
@@ -28,14 +25,9 @@ const Provide = BaseComponent => {
       return {store: store};
     };
     render() {
-      return Wrapped(this.props);
+      return <Wrapped {...this.props}/>;
     };
   }
-
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Provide');
-  Wrapper.propTypes = BaseComponent.propTypes;
-  Wrapper.defaultProps = BaseComponent.defaultProps;
-
   return Wrapper;
 }
 

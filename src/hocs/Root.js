@@ -1,11 +1,11 @@
 import React, {Component, PropTypes as _} from 'react';
 import {connect} from 'react-redux';
-import {wrapDisplayName, wrap} from '../utils/HocUtils';
 
-const Root = BaseComponent => {
-
-  const Wrapped = wrap(BaseComponent);
+const Root = Wrapped => {
   class Wrapper extends Component {
+    static propTypes = {
+      state: _.any.isRequired
+    };
     static childContextTypes = {
       id: _.string,
       state: _.any
@@ -15,15 +15,10 @@ const Root = BaseComponent => {
       return {id: "@root", state};
     };
     render() {
-      const {state, ...original} = this.props;
-      return Wrapped(original);
+      const {state, ...rest} = this.props;
+      return <Wrapped {...rest}/>;
     };
   }
-
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Root');
-  Wrapper.propTypes = BaseComponent.propTypes;
-  Wrapper.defaultProps = BaseComponent.defaultProps;
-
   return connect((state) => ({state: state.ViewReducer}), {})(Wrapper);
 }
 

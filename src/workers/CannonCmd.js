@@ -25,35 +25,23 @@ function run({type, meta, payload}){
 }
 
 //--------------------------------------------------
-//   SWITCH RELATIVE TO LOCAL COORDINATES
-//--------------------------------------------------
-
-function asTree(objects){
-  let tree = {};
-  for(const id in objects){
-    const obj = objects[id];
-    const arr = id.split(',');
-    tree = merge(tree, arr.reduceRight( (acc, key) => ({ [key]: acc }), {",": obj}));
-  }
-  return tree;
-}
-
-function transform(node){
-
-}
-
-//--------------------------------------------------
 //   ADD SOMETING ON FLY
 //--------------------------------------------------
 
 function SETUP(objects, id){
+  let waitlist = [];
   let subscribed = {};
   for(const key in objects){
     let object  = {...objects[key], name: key};
     if( key === id && init(object) ||
-        TYPE.JOINTS.includes(object.type) && addJoint(object) ||
         TYPE.BODIES.includes(object.type) && addBody(object)  )
       subscribed[key] = {...objects[key], visible: true};
+    else if( TYPE.JOINTS.includes(object.type) )
+      waitlist.push(object);
+  }
+  for(const j of waitlist){
+    if( addJoint(j) )
+      subscribed[j.name] = {...objects[j.name], visible: true};
   }
   return subscribed;
 }
@@ -115,7 +103,7 @@ function init( {G, iterations, timestep, broadphase} ){
 //    BASIC OBJECT
 //--------------------------------------------------
 
-var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, move} ){
+var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, dynamic} ){
   const position = new CANNON.Vec3(pos.x, pos.y, pos.z);
   const quaternion = new CANNON.Quaternion(qua.x, qua.y, qua.z, qua.w);
   const {width, height, depth, radius} = dim;
@@ -125,9 +113,9 @@ var addBody = function( {name, type, pos, qua, dim, density, friction, restituit
     case TYPE.SPHERE: shape = new CANNON.Sphere(radius); break;
     case TYPE.CYLINDER: shape = new CANNON.Cylinder(radius, radius, height, 12); break;
   }
-  const mass = move? shape.volume()*density : 0;
+  const mass = dynamic? shape.volume()*density : 0;
   const material = new CANNON.Material( {friction, restituition} );
-  const ctype = move? CANNON.Body.DYNAMIC : CANNON.Body.STATIC;
+  const ctype = dynamic? CANNON.Body.DYNAMIC : CANNON.Body.STATIC;
   var b = new CANNON.Body({position, quaternion, shape, mass, material, type: ctype});
   world.addBody(b);
   bodies[name] = b;
