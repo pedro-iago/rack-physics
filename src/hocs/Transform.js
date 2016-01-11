@@ -36,6 +36,7 @@ const Transform = Wrapped => {
           ref = "obj3d"
         >
           { this.props.children || <Wrapped {...this.props} {...state[id]}/> }
+          { /*why children can't be side by side with Wrapped?*/ }
         </object3D> );
     };
   }
