@@ -33,6 +33,7 @@ const Transform = Wrapped => {
         <object3D
           position = { new THREE.Vector3(pos.x, pos.y, pos.z) }
           quaternion = { new THREE.Quaternion(qua.x, qua.y, qua.z, qua.w) }
+          name = { id }
           ref = "obj3d"
         >
           { this.props.children || <Wrapped {...this.props} {...state[id]}/> }

@@ -25,7 +25,7 @@ class App extends Component {
   };
   componentWillMount(){
     this.setState({
-      boxes: this._randomBodies(100)
+      boxes: this._randomBodies(20)
     });
   };
   render() {
