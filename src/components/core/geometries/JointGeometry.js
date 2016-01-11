@@ -3,13 +3,13 @@ import _c from '~/utils/CustomPropTypes';
 import THREE from 'three.js';
 import { JOINT_DISTANCE } from '~/Macros';
 
-const JointGeometry = ( {type, anchors} ) => {
+const JointGeometry = ( {type, vertices} ) => {
   const geometries = {
     [JOINT_DISTANCE]:
       <geometry
         vertices = {[
-          new THREE.Vector3(anchors[0].x, anchors[0].y, anchors[0].z),
-          new THREE.Vector3(anchors[1].x, anchors[1].y, anchors[1].z)
+          new THREE.Vector3(vertices[0].x, vertices[0].y, vertices[0].z),
+          new THREE.Vector3(vertices[1].x, vertices[1].y, vertices[1].z)
         ]}
       />
   };
@@ -18,7 +18,7 @@ const JointGeometry = ( {type, anchors} ) => {
 
 JointGeometry.propTypes = {
   type: _.oneOf([JOINT_DISTANCE]).isRequired,
-  anchors: _.arrayOf(_c.vec3.isRequired).isRequired
+  vertices: _.arrayOf(_c.vec3.isRequired).isRequired
 }
 
 export default JointGeometry;
