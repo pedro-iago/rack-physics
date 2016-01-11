@@ -17,7 +17,7 @@ class App extends Component {
         key: 'body'+i,
         name: 'body'+i,
         type: this.types[Math.floor(3*Math.random())],
-        pos: {x: 500*Math.random() - 250, y: 500*Math.random() - 1000, z: 200*Math.random() - 100},
+        pos: {x: 500*Math.random() - 250, y: 100*Math.random() - 200, z: 200*Math.random() - 100},
         dim: {width: 20, height: 20, depth: 20, radius: 15}
       });
     }
@@ -25,7 +25,7 @@ class App extends Component {
   };
   componentWillMount(){
     this.setState({
-      boxes: this._randomBodies(20)
+      boxes: this._randomBodies(100)
     });
   };
   render() {
@@ -36,8 +36,6 @@ class App extends Component {
           <World
             name = "Paradim"
             G = {10}
-            iterations = {8}
-            timestep = {1/60}
           >
             {this.state.boxes}
             <RoofWithPendulum

@@ -2,7 +2,7 @@ import React, { PropTypes as _ } from 'react';
 import { compose } from 'redux';
 import { Provide, Root, Namespace, Worker, Transform } from '../hocs';
 import { WorldMesh } from '../components/core';
-import { CannonCmd as PhysicsSim } from '../workers';
+import { OimoCmd as PhysicsSim } from '../workers';
 import { BRUTE, SWEEP, TREE } from '../Macros';
 
 const World = compose(Provide, Root, Namespace, Worker(PhysicsSim), Transform)(WorldMesh);

@@ -32,21 +32,25 @@ function run({type, meta, payload}){
 //   ADD SOMETING ON FLY
 //--------------------------------------------------
 
+//I think it's better to send stuff in the correct order maybe? world - body - joints
 function SETUP(objects, id){
-  let waitlist = [];
+  let jointslist = [];
+  let bodieslist = [];
   let subscribed = {};
   for(const key in objects){
     let object  = {...objects[key], name: key};
-    if( key === id && init(object) ||
-        TYPE.BODIES.includes(object.type) && addBody(object)  )
-      subscribed[key] = {...objects[key], visible: true};
+    if( key === id ){
+      if( init(object) ) subscribed[key] = {...objects[key], visible: true};
+    }
+    else if( TYPE.BODIES.includes(object.type) )
+      bodieslist.push(object);
     else if( TYPE.JOINTS.includes(object.type) )
-      waitlist.push(object);
+      jointslist.push(object);
   }
-  for(const j of waitlist){
-    if( addJoint(j) )
-      subscribed[j.name] = {...objects[j.name], visible: true};
-  }
+  for(const b of bodieslist)
+    if( addBody(b) ) subscribed[b.name] = {...objects[b.name], visible: true};
+  for(const j of jointslist)
+    if( addJoint(j) ) subscribed[j.name] = {...objects[j.name], visible: true};
   return subscribed;
 }
 
@@ -55,6 +59,8 @@ function SETUP(objects, id){
 //--------------------------------------------------
 
 var LOOP = function(objects, id){
+  //oimo has bad precision, that's why the double step here
+  world.step();
   world.step();
   let payload = {};
   for (const body of bodies) {
@@ -89,7 +95,8 @@ var clear = function(){
 function init( {G, iterations, timestep, broadphase} ){
   world.gravity = new OIMO.Vec3(0, G, 0);
   world.numIterations = iterations;
-  world.timeStep = timestep;
+  //double step by frame for better precision
+  world.timeStep = timestep/2;
   switch(broadphase){
     case TYPE.BRUTE: world.broadPhase = new OIMO.BruteForceBroadPhase(); break;
     case TYPE.SWEEP: default: world.broadPhase = new OIMO.SAPBroadPhase(); break;
@@ -102,9 +109,9 @@ function init( {G, iterations, timestep, broadphase} ){
 //    BASIC OBJECT
 //--------------------------------------------------
 
-var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, dynamic} ){
+var addBody = function( {name, type, pos, qua, dim, density, friction, restitution, dynamic} ){
   const position = [pos.x, pos.y, pos.z];
-  const rot = Vec3.scale(Quat.toEuler(qua), 180/OIMO.PI);
+  const rot = Vec3.scale(Quat.toEuler(qua), 1);
   const rotation = [rot.x, rot.y, rot.z];
   const {width, height, depth, radius} = dim;
   let size = [];
@@ -113,7 +120,7 @@ var addBody = function( {name, type, pos, qua, dim, density, friction, restituit
     case TYPE.SPHERE: size = [radius]; break;
     case TYPE.CYLINDER: size = [height, radius]; break;
   }
-  var b = world.add( {name, type, pos: position, rot: rotation, size, density, friction, restituition, move: dynamic} );
+  var b = world.add( {name, type, pos: position, rot: rotation, size, density, friction, restitution, move: dynamic} );
   bodies.push(b);
   return b.type !== OIMO.BODY_NULL;
 }

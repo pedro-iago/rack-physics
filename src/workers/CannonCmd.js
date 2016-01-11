@@ -28,21 +28,25 @@ function run({type, meta, payload}){
 //   ADD SOMETING ON FLY
 //--------------------------------------------------
 
+//I think it's better to send stuff in the correct order maybe? world - body - joints
 function SETUP(objects, id){
-  let waitlist = [];
+  let jointslist = [];
+  let bodieslist = [];
   let subscribed = {};
   for(const key in objects){
     let object  = {...objects[key], name: key};
-    if( key === id && init(object) ||
-        TYPE.BODIES.includes(object.type) && addBody(object)  )
-      subscribed[key] = {...objects[key], visible: true};
+    if( key === id ){
+      if( init(object) ) subscribed[key] = {...objects[key], visible: true};
+    }
+    else if( TYPE.BODIES.includes(object.type) )
+      bodieslist.push(object);
     else if( TYPE.JOINTS.includes(object.type) )
-      waitlist.push(object);
+      jointslist.push(object);
   }
-  for(const j of waitlist){
-    if( addJoint(j) )
-      subscribed[j.name] = {...objects[j.name], visible: true};
-  }
+  for(const b of bodieslist)
+    if( addBody(b) ) subscribed[b.name] = {...objects[b.name], visible: true};
+  for(const j of jointslist)
+    if( addJoint(j) ) subscribed[j.name] = {...objects[j.name], visible: true};
   return subscribed;
 }
 
