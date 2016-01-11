@@ -1,8 +1,9 @@
 'use strict';
 import CANNON from 'cannon';
-import { Vec3, Vec4 } from '../utils/VectorUtils';
+import { Vec3, Quat, Pose } from '../utils/VectorUtils';
 import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
+import merge from 'lodash.merge';
 
 var lastTime = Date.now();
 var world = new CANNON.World();
@@ -21,6 +22,24 @@ function run({type, meta, payload}){
     case TYPE.SETUP: return SETUP(payload, meta);
     case TYPE.LOOP: return LOOP(payload, meta);
   }
+}
+
+//--------------------------------------------------
+//   SWITCH RELATIVE TO LOCAL COORDINATES
+//--------------------------------------------------
+
+function asTree(objects){
+  let tree = {};
+  for(const id in objects){
+    const obj = objects[id];
+    const arr = id.split(',');
+    tree = merge(tree, arr.reduceRight( (acc, key) => ({ [key]: acc }), {",": obj}));
+  }
+  return tree;
+}
+
+function transform(node){
+
 }
 
 //--------------------------------------------------
@@ -51,7 +70,7 @@ var LOOP = function(objects, id){
     const body = bodies[key];
     if(body.sleepState !== CANNON.Body.SLEEPING){
       const pos = Vec3.scale(body.position, 1);
-      const qua = Vec4.scale(body.quaternion, 1);
+      const qua = Quat.scale(body.quaternion, 1);
       payload = { ...payload, [key]: {pos, qua} };
     }
   }

@@ -13,7 +13,7 @@ const BodyMesh = ( { type, dim, move, visible, children } ) =>
     />
     <meshNormalMaterial
       wireframe = {!move}
-      color = {0x00ff00}
+      // color = {0x00ff00}
     />
   </mesh>
 

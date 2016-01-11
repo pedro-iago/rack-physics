@@ -6,7 +6,7 @@
 
 'use strict';
 import OIMO from '../utils/Oimo';
-import { Vec3, Vec4 } from '../utils/VectorUtils';
+import { Vec3, Quat } from '../utils/VectorUtils';
 import { uniqueUnion, getParent } from '../hocs/Namespace';
 import * as TYPE from '../Macros';
 
@@ -54,7 +54,7 @@ var LOOP = function(objects, id){
   for (const body of bodies) {
     if(!body.sleeping){
       const pos = Vec3.scale(body.position, OIMO.WORLD_SCALE);
-      const qua = Vec4.scale(body.getQuaternion(), 1);
+      const qua = Quat.scale(body.getQuaternion(), 1);
       payload = { ...payload, [body.name]: {pos, qua} };
     }
   }
@@ -98,7 +98,7 @@ function init( {G, iterations, timestep, broadphase} ){
 
 var addBody = function( {name, type, pos, qua, dim, density, friction, restituition, move} ){
   const position = [pos.x, pos.y, pos.z];
-  const rot = Vec3.scale(Vec4.toEuler(qua), 180/OIMO.PI);
+  const rot = Vec3.scale(Quat.toEuler(qua), 180/OIMO.PI);
   const rotation = [rot.x, rot.y, rot.z];
   const {width, height, depth, radius} = dim;
   let size = [];

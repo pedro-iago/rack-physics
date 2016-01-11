@@ -16,7 +16,10 @@ TODO: Check support for relative positioning in both Cannon and Oimo. They shoul
 Maybe looking at how Unity deals with Transforms will give me an insight
 That's my idea: each worker will receive the relative view on the loop, flat but nested by the keys.
 The first thing each worker does is to switch every object it receives into his local coordinates.
-(that essentially binds Worker with Body) perhaps OimoBody should be made to look more like OimoJoint, and Body should be made a hoc
+TODO: BIG CHANGE!
+This led me to realize it's much better to have each three js instance (refs) on the View Reducer instead. Relevant fields could then be selected on the worker-saga.
+imagine there is no other properties other than those from three. Them body mesh default values and etc would be simpler. However the physical properties like friction
+also need to be reported to the workers. This may be solved with another reducer that holds such things... Something like
 
 ============================
 
