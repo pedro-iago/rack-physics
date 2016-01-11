@@ -8,6 +8,17 @@ const RoofWithPendulum = (props) =>
     {...props}
   >
     <Body
+      pos = {{x: -250}}
+      name = "pei"
+    >
+      <Body
+        name = "caixa"
+        type = {TYPE.BOX}
+        pos = {{x: 0, y: -20, z: 0}}
+        dim = {{width: 20, height: 20, depth: 20}}
+      />
+    </Body>
+    <Body
       name = "roof"
       type = {TYPE.BOX}
       pos = {{y: 0}}
