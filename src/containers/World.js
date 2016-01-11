@@ -8,6 +8,8 @@ export const World = compose(Provide, Root, Namespace, Worker(PhysicsCmd), View,
 export const Body = compose(Namespace, View, Transform)(BodyMesh);
 export const Joint = compose(Namespace, View)(JointMesh);
 
+//this is the place where I should add the default props and propTypes to World, Body, and Joint
+
 // //Proof of Concept
 // import { Hcsr04Sim, Pic18fSim } from '../workers';
 // import { Worker, Custom } from '../hocs';
