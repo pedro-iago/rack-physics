@@ -47,12 +47,17 @@ function* fetchTerminate( workers ){
   yield put(terminate(Object.keys(workers)));
 }
 
-//I think a better way of resolving this is serializing the three.js objects and sending them instead!
+//I think a better way of solving this is serializing the three.js objects and sending them instead!
 //actually, serializing only what is important, like position and bla bla bla
 //and them workers can choose to reconstruct three objects on their side, or use the json directly
 //TODO: think more about serializing it and the possibility of using the raycast and all of its functions in the workers
 //the needs for refs can go out if I don't use this... but I actually prefer this for setup than sending each separetely
 //maybe I can call toJSON before sending the ref? and then setup will just pass its payloads with the @root and let the worker reconstruct it and deal with it
+//I think I can use something like: use React3Renderer.render for the initial render so that each can save a copy of three js
+//somethink like import {App} from "apps"; then three_root = React3Renderer.render(App); (actually that fails if App it's not deterministic)
+//Basically what I want is to be able to render the first time on a Worker and then send that react-tree to the client (and all other workers)(just as a Server)
+//that would elliminate the need for sending SETUP via postMessage, as each worker would have the react-tree from the begining and I could call their SETUP functions after that
+//ideally I want to be able to run react3Renderer giving the output of React from the LOOP and modifying the instances each time 
 function toGlobal( { "@root": view } ){
   let objects = {};
   view.traverse( object => {

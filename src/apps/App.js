@@ -25,7 +25,7 @@ class App extends Component {
   };
   componentWillMount(){
     this.setState({
-      boxes: this._randomBodies(20)
+      bodies: this._randomBodies(20)
     });
   };
   render() {
@@ -37,7 +37,7 @@ class App extends Component {
             name = "Paradim"
             G = {10}
           >
-            {this.state.boxes}
+            {this.state.bodies}
             <RoofWithPendulum
               name = "thing"
               pos = {{x: 250}}

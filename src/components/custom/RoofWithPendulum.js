@@ -35,7 +35,7 @@ const RoofWithPendulum = (props) =>
       name = "string"
       type = {TYPE.JOINT_DISTANCE}
       bodies = {['roof', 'bola']}
-      anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 10, z: 0}]}
+      anchors = {[{x: 0, y: 0, z: 0}, {x: 0, y: 20, z: 0}]}
       axis = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
       limits = {[500, 550]}
       stiffness = {0.2}
