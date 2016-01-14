@@ -28,7 +28,7 @@ const RoofWithPendulum = (props) =>
     <Body
       name = "bola"
       type = {TYPE.SPHERE}
-      pos = {{x: 300, y: 400, z: 0}}
+      pos = {{x: 300, y: -400, z: 0}}
       dim = {{radius: 20}}
     />
     <Joint
@@ -39,7 +39,7 @@ const RoofWithPendulum = (props) =>
       axis = {[{x: 0, y: 1, z: 0}, {x: 0, y: 1, z: 0}]}
       limits = {[500, 550]}
       stiffness = {0.2}
-      damping = {0.2}
+      damping = {1.5}
     />
   </Body>
 

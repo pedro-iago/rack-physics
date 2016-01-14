@@ -11,9 +11,9 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-window.onbeforeunload = () => ReactDOM.unmountComponentAtNode(
-  document.getElementById("root")
-);
+// window.onbeforeunload = () => ReactDOM.unmountComponentAtNode(
+//   document.getElementById("root")
+// );
 window.onkeydown = () => {
   Perf.stop();
   const measurements = Perf.getLastMeasurements();

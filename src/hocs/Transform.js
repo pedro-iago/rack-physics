@@ -19,25 +19,19 @@ const Transform = Wrapped => {
       pos: {x: 0, y: 0, z: 0},
       qua: {x: 0, y: 0, z: 0, w: 1}
     };
-    componentDidMount() {
-      const {id} = this.context;
-      const {pos, qua, children, ...rest} = this.props;
-      const inst = this.refs["obj3d"];
-      inst.userData.rack = rest;
-      store.dispatch( setup({ [id]: inst }) );
-    };
     render() {
       const {id, state} = this.context;
-      const {pos, qua} = state[id] || this.props;
+      const {pos, qua, children, ...userData} = state[id] || this.props;
       return (
         <object3D
           position = { new THREE.Vector3(pos.x, pos.y, pos.z) }
           quaternion = { new THREE.Quaternion(qua.x, qua.y, qua.z, qua.w) }
+          ref = { (inst) => {if(inst) inst.userData.rack = userData} }
           name = { id }
-          ref = "obj3d"
         >
-          { this.props.children || <Wrapped {...this.props} {...state[id]}/> }
-          { /*why children can't be side by side with Wrapped?*/ }
+          { /*if inst on the ref here allows for the user data to only be unsync with any changes of it after mounting! The problem is react-three-renderer ref is null after mounting!*/}
+          { children || <Wrapped {...this.props} {...state[id]}/> }
+          { /*why children can't be side by side with Wrapped? That could be useful for controllers, so that their id is the Body namespace*/ }
         </object3D> );
     };
   }
