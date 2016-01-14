@@ -1,11 +1,11 @@
-import { SUBSCRIBE, STEP } from '../Macros';
+import { SETUP, LOOP } from '../Macros';
 
 const initial = {};
 function ViewReducer(state = initial, action) {
   const {type, payload} = action;
   switch (type) {
-    case SUBSCRIBE:
-    case STEP:
+    case SETUP:
+    case LOOP:
       let newState = {};
       for(const key in payload){
         newState[key] = {...state[key], ...payload[key]};

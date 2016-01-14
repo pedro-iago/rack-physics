@@ -1,33 +1,34 @@
-import React, {PropTypes as _} from 'react';
-import {wrapDisplayName} from "../utils/HocUtils";
+import React, {Component, PropTypes as _} from 'react';
 
-const Namespace = BaseComponent => {
-  const Wrapper = props => {
-    const {myKey, children, ...base} = props;
-    const withKey = React.Children.map( children, (child) =>
-      React.cloneElement( child, { myKey: uniqueUnion(child.props.name, myKey) } )
-    );
-    return BaseComponent({ ...base, children: withKey });
-  };
-
-  Wrapper.displayName = wrapDisplayName(BaseComponent, 'Namespace');
-  Wrapper.propTypes = {
-    ...BaseComponent.propTypes,
-    name: _.string.isRequired,
-    children: _.any
-  };
-  Wrapper.defaultProps = {
-    ...BaseComponent.defaultProps,
-    myKey: "@root"
+const Namespace = Wrapped => {
+  class Wrapper extends Component {
+    static propTypes = {
+      name: _.string.isRequired
+    };
+    static contextTypes = {
+      id: _.string.isRequired
+    };
+    static childContextTypes = {
+      id: _.string
+    };
+    getChildContext() {
+      return { id: uniqueUnion(this.props.name, this.context.id) };
+    };
+    render() {
+      return <Wrapped {...this.props}/>;
+    };
   }
-
   return Wrapper;
-};
+}
 
 export function uniqueUnion(name, parent){
   if( name.includes(',') )
     throw new Error("name can't have any commas!");
   return parent? [parent, name].join(',') : name;
+}
+
+export function getParent(id){
+  return id.substring(0, id.lastIndexOf(','));
 }
 
 export default Namespace;

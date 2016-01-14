@@ -2,16 +2,21 @@ import React, { Component, PropTypes as _ } from 'react';
 import React3 from 'react-three-renderer';
 import ReactDOM from 'react-dom';
 import THREE from 'three.js';
-import {connect} from 'react-redux';
-import {step} from '../actions/worker';
+import {store} from '../hocs/Provide';
+import {loop} from '../actions/worker';
 import {TrackballControls} from '../utils';
 
-@connect()
 class ThreeApp extends Component {
   state = {
-    mainCameraPosition: new THREE.Vector3(0, 0, 10000),
-  }
+    mainCameraPosition: new THREE.Vector3(0, 0, 1000),
+    width: window.innerWidth,
+    height: window.innerHeight
+  };
   componentDidMount() {
+    window.addEventListener('resize', () => this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight
+    }));
     const controls = new TrackballControls(this.refs.mainCamera, ReactDOM.findDOMNode(this.refs.react3));
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
@@ -24,31 +29,23 @@ class ThreeApp extends Component {
       mainCameraPosition: this.refs.mainCamera.position
     }));
     this.controls = controls;
-  }
-  //animation frame is blocking sagas since is being called too many times
-  //however, when I open chrome timeline, the cpu wants to show off and runs at 100%
-  //and what happens is that, usually, for each frame I get one run in the sagas (ideal case)
-  //how to force the cpu to always run at 100%? is that even the true reason it's faster?
-  //why request animation frame it's 5x times slower when I got the devtools on? quite unexpected...
-  //what if I could delay the browser refresh rate to 30 fps? that would give more time to sagas and still it would be smooth to my eyes
+  };
   _onAnimate = () => {
-    this.props.dispatch( step() );
+    store.dispatch( loop() );
     this.controls.update();
-    //console.log("request");
-  }
+  };
   componentWillUnmount() {
     this.controls.dispose();
     delete this.controls;
-  }
+  };
   render() {
-    const {mainCameraPosition} = this.state;
-    const {innerWidth, innerHeight} = window;
+    const {mainCameraPosition, width, height} = this.state;
     return (
       <React3
         ref="react3"
         mainCamera="camera"
-        width={innerWidth}
-        height={innerHeight}
+        width={width}
+        height={height}
         onAnimate={this._onAnimate}
       >
         <scene>
@@ -65,7 +62,7 @@ class ThreeApp extends Component {
         </scene>
       </React3>
     );
-  }
+  };
 }
 
 export default ThreeApp;

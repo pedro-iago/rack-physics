@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { PropTypes as _ } from 'react';
 import { compose } from 'redux';
-import { Namespace, Provide, Subscribe, Worker } from '../hocs';
-import { OimoBody, OimoJoint, OimoWorld } from '../components';
-import { OimoCmd } from '../workers';
+import { Provide, Root, Namespace, Worker, Transform } from '../hocs';
+import { WorldMesh } from '../components/core';
+import { OimoCmd as PhysicsSim } from '../workers';
+import { BRUTE, SWEEP, TREE } from '../Macros';
 
-export const World = compose(Provide, Worker(OimoCmd), Namespace)(OimoWorld);
-export const Body = compose(Subscribe, Namespace)(OimoBody);
-export const Joint = compose(Subscribe, Namespace)(OimoJoint);
+const World = compose(Provide, Root, Namespace, Worker(PhysicsSim), Transform)(WorldMesh);
+
+World.propTypes = {
+  G: _.number,
+  iterations: _.number,
+  timestep: _.number,
+  broadphase: _.oneOf([BRUTE, SWEEP, TREE])
+};
+
+World.defaultProps = {
+  G: 10,
+  iterations: 8,
+  timestep: 1/60,
+  broadphase: SWEEP
+}
+
 export default World;

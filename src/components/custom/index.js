@@ -1,0 +1,1 @@
+export RoofWithPendulum from './RoofWithPendulum';

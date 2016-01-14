@@ -1,4 +1,4 @@
-import {SPAWN, INIT, SUBSCRIBE, STEP, TERMINATE} from '../Macros';
+import {SPAWN, SETUP, LOOP, TERMINATE} from '../Macros';
 
 export function spawn( creators ){
   return {
@@ -7,30 +7,28 @@ export function spawn( creators ){
   };
 }
 
-export function init( settings ){
-  return {
-    type: INIT,
-    payload: settings
-  };
-}
+//maybe i'll have to rethink these actions to receive the three js root instead
+//the only difference between then would be the ammount of times I call them
 
-export function subscribe( objects ){
+//setup would be requested just once, on the world creation
+export function setup( objects ){
   return {
-    type: SUBSCRIBE,
+    type: SETUP,
     payload: objects
   };
 }
 
-export function step( objects ){
+//loop would requested on each animation frame
+export function loop( objects ){
   return {
-    type: STEP,
+    type: LOOP,
     payload: objects
   };
 }
 
-export function terminate( key ){
+export function terminate( id ){
   return {
     type: TERMINATE,
-    payload: key
+    payload: id
   };
 }
