@@ -31,16 +31,16 @@ module.exports = {
   },
   module: {
     loaders: [{
+      test: /(^|\.)worker\.js$/,
+      loaders: ['worker-loader'],
+      exclude: /node_modules/
+    }, {
       test: /\.js$/,
       loaders: ['babel-loader'],
       exclude: /node_modules/
     }, {
       test: /\.css?$/,
       loaders: ['style', 'raw']
-    },
-    {
-      test: /\.worker.js$/,
-      loaders: ['worker-loader', 'babel-loader'],
     }]
   }
 };

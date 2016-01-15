@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	eval("\"use strict\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./~/babel-loader!./~/babel-loader!./~/worker-loader!./src/workers/CannonCmd.worker.js\n ** module id = 0\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/workers/CannonCmd.worker.js?./~/babel-loader!./~/babel-loader!./~/worker-loader");
+	eval("\"use strict\";\n\n/*****************\n ** WEBPACK FOOTER\n ** ./~/babel-loader!./~/worker-loader!./src/workers/CannonCmd.worker.js\n ** module id = 0\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/workers/CannonCmd.worker.js?./~/babel-loader!./~/worker-loader");
 
 /***/ }
 /******/ ]);

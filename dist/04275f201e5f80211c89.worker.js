@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("\"use strict\";\n\nmodule.exports = function () {\n\treturn new Worker(__webpack_require__.p + \"300e822073a310e55f62.worker.js\");\n};\n\n/*****************\n ** WEBPACK FOOTER\n ** ./~/babel-loader!./~/worker-loader!./~/babel-loader!./src/workers/OimoCmd.worker.js\n ** module id = 0\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/workers/OimoCmd.worker.js?./~/babel-loader!./~/worker-loader!./~/babel-loader");
+	eval("module.exports = function() {\n\treturn new Worker(__webpack_require__.p + \"050864ded78568af0a7d.worker.js\");\n};\n\n/*****************\n ** WEBPACK FOOTER\n ** ./~/worker-loader!./~/babel-loader!./src/workers/CannonCmd.worker.js\n ** module id = 0\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/workers/CannonCmd.worker.js?./~/worker-loader!./~/babel-loader");
 
 /***/ }
 /******/ ]);
