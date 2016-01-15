@@ -4,7 +4,8 @@
   "description": "RACK (Robotics Automated Control Kickoff) is a sharing platform running a live 3D physics engine (oimo)",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "hjs-dev-server",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "cannon": "^0.6.2",
+    "hjs-webpack": "^6.1.0",
     "lodash.mapvalues": "^3.0.1",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
