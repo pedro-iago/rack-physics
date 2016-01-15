@@ -37,6 +37,10 @@ module.exports = {
     }, {
       test: /\.css?$/,
       loaders: ['style', 'raw']
+    },
+    {
+      test: /\.worker.js$/,
+      loaders: ['worker-loader', 'babel-loader'],
     }]
   }
 };
