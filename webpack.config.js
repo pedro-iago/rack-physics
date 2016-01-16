@@ -10,8 +10,6 @@ module.exports = getConfig({
   // end up for simple deployment.
   out: 'dist',
 
-  isDev: false,
-
   // This will destroy and re-create your
   // `out` folder before building so you always
   // get a fresh folder. Usually you want this
