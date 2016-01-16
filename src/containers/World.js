@@ -5,6 +5,8 @@ import { WorldMesh } from '../components/core';
 import { OimoCmd as PhysicsSim } from '../workers';
 import { BRUTE, SWEEP, TREE } from '../Macros';
 
+console.log(PhysicsSim);
+
 const World = compose(Provide, Root, Namespace, Worker(PhysicsSim), Transform)(WorldMesh);
 
 World.propTypes = {
