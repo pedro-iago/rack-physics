@@ -22,7 +22,8 @@ const Transform = Wrapped => {
     shouldComponentUpdate(np, ns, nextContext){
       const {id, state} = this.context;
       const {state: nextState} = nextContext;
-      return state[id] === nextState[id];
+      const {children} = this.props;
+      return !!children? true : state[id] !== nextState[id];
     };
     render() {
       const {id, state} = this.context;

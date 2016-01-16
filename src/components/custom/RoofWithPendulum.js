@@ -22,7 +22,7 @@ const RoofWithPendulum = (props) =>
       name = "roof"
       type = {TYPE.BOX}
       pos = {{y: 0}}
-      dim = {{width: 500, height: 10, depth: 300}}
+      dim = {{width: 600, height: 10, depth: 300}}
       dynamic = {false}
     />
     <Body
