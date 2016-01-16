@@ -25,7 +25,7 @@ class App extends Component {
   };
   componentWillMount(){
     this.setState({
-      bodies: this._randomBodies(100)
+      bodies: this._randomBodies(200)
     });
   };
   render() {
@@ -40,7 +40,7 @@ class App extends Component {
             {this.state.bodies}
             <RoofWithPendulum
               name = "thing"
-              pos = {{x: 250}}
+              pos = {{x: 0}}
             />
           </World>
         </ThreeApp>

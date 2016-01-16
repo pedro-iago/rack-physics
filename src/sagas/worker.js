@@ -39,7 +39,6 @@ function* fetch( {type, payload}, getState ){
 
 function* fetchSpawn( creators ){
   const workers = yield call(mapValues, creators, creator => creator());
-  console.log(workers);
   yield put(spawn(workers));
 }
 
