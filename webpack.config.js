@@ -1,46 +1,21 @@
-var path = require('path');
-var webpack = require('webpack');
+var getConfig = require('hjs-webpack')
 
-/*add this plugin for a performance boost
-  new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': '"production"',
-    }
-  })
-]*/
+module.exports = getConfig({
+  // entry point for the app
+  in: 'index.js',
 
-module.exports = {
-  devtool: 'eval',
-  entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    './index'
-  ],
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': '"production"',
-      }
-    })
-  ],
-  resolve: {
-    extensions: ['', '.js']
-  },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['react-hot', 'babel-loader'],
-      exclude: /node_modules/
-    }, {
-      test: /\.css?$/,
-      loaders: ['style', 'raw']
-    }]
-  }
-};
+  // Name or full path of output directory
+  // commonly named `www` or `public`. This
+  // is where your fully static site should
+  // end up for simple deployment.
+  out: 'dist',
+
+  html: false,
+
+  // This will destroy and re-create your
+  // `out` folder before building so you always
+  // get a fresh folder. Usually you want this
+  // but since it's destructive we make it
+  // false by default
+  clearBeforeBuild: false
+});

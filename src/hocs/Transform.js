@@ -19,6 +19,12 @@ const Transform = Wrapped => {
       pos: {x: 0, y: 0, z: 0},
       qua: {x: 0, y: 0, z: 0, w: 1}
     };
+    shouldComponentUpdate(np, ns, nextContext){
+      const {id, state} = this.context;
+      const {state: nextState} = nextContext;
+      const {children} = this.props;
+      return !!children? true : state[id] !== nextState[id];
+    };
     render() {
       const {id, state} = this.context;
       const {pos, qua, children, ...userData} = state[id] || this.props;

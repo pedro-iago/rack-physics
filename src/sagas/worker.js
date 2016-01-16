@@ -57,7 +57,7 @@ function* fetchTerminate( workers ){
 //somethink like import {App} from "apps"; then three_root = React3Renderer.render(App); (actually that fails if App it's not deterministic)
 //Basically what I want is to be able to render the first time on a Worker and then send that react-tree to the client (and all other workers)(just as a Server)
 //that would elliminate the need for sending SETUP via postMessage, as each worker would have the react-tree from the begining and I could call their SETUP functions after that
-//ideally I want to be able to run react3Renderer giving the output of React from the LOOP and modifying the instances each time 
+//ideally I want to be able to run react3Renderer giving the output of React from the LOOP and modifying the instances each time
 function toGlobal( { "@root": view } ){
   let objects = {};
   view.traverse( object => {

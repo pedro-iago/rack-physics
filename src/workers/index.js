@@ -1,2 +1,2 @@
-export OimoCmd from "worker!./OimoCmd";
-export CannonCmd from "worker!./CannonCmd";
+export OimoCmd from "./OimoCmd.thread";
+export CannonCmd from "./CannonCmd.thread";
