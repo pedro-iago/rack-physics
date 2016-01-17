@@ -23,13 +23,16 @@ const BodyGeometry = ( {type, dim, dynamic} ) => {switch(type){
       dynamic = {dynamic}
     />;
   default:
-    return;
+    return <sphereGeometry/>;
 }};
 
 BodyGeometry.propTypes = {
-  type: _.oneOf([BOX, SPHERE, CYLINDER]).isRequired,
-  dim: _c.dim.isRequired,
-  dynamic: _.bool.isRequired
+  type: _.oneOf([BOX, SPHERE, CYLINDER]),
+  dim: (...args) => {
+    const s = _c.dim;
+    return args[0].type? s.isRequired(...args) : s(...args);
+  },
+  dynamic: _.bool
 }
 
 export default BodyGeometry;
