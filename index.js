@@ -21,3 +21,7 @@ window.onkeydown = () => {
   Perf.printExclusive(measurements);
   Perf.printWasted(measurements);
 }
+
+//import ReactDOMServer from 'react-dom/server';
+//console.log(ReactDOMServer.renderToStaticMarkup(<App />));
+//I need to figure out a way of doing this with React3Renderer...
