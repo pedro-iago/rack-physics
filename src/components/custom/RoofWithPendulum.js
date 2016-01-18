@@ -28,7 +28,7 @@ const RoofWithPendulum = (props) =>
     <Body
       name = "bola"
       type = {TYPE.SPHERE}
-      pos = {{x: 300, y: -400, z: 0}}
+      pos = {{x: 0, y: 0, z: 0}}
       dim = {{radius: 20}}
     />
     <Joint

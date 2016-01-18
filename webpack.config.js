@@ -1,21 +1,33 @@
-var getConfig = require('hjs-webpack')
+var path = require('path');
+var webpack = require('webpack');
 
-module.exports = getConfig({
-  // entry point for the app
-  in: 'index.js',
-
-  // Name or full path of output directory
-  // commonly named `www` or `public`. This
-  // is where your fully static site should
-  // end up for simple deployment.
-  out: 'dist',
-
-  html: false,
-
-  // This will destroy and re-create your
-  // `out` folder before building so you always
-  // get a fresh folder. Usually you want this
-  // but since it's destructive we make it
-  // false by default
-  clearBeforeBuild: false
-});
+module.exports = {
+  devtool: 'eval',
+  entry: [
+    'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/only-dev-server',
+    './index'
+  ],
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
+  resolve: {
+    extensions: ['', '.js']
+  },
+  module: {
+    loaders: [{
+      test: /\.js$/,
+      loaders: ['react-hot', 'babel-loader'],
+      exclude: /node_modules/
+    }, {
+      test: /\.css?$/,
+      loaders: ['style', 'raw']
+    }]
+  }
+};

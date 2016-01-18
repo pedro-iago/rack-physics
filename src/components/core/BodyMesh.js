@@ -2,7 +2,7 @@ import React, { PropTypes as _ } from 'react';
 import _c from '~/utils/CustomPropTypes';
 import { BodyGeometry } from './geometries';
 
-const BodyMesh = ( { type, dim, name, dynamic, visible } ) =>
+const BodyMesh = ( { name, type, dim, dynamic, visible } ) =>
   <mesh
     name = {name}
     visible = {visible}
@@ -18,9 +18,9 @@ const BodyMesh = ( { type, dim, name, dynamic, visible } ) =>
   </mesh>
 
 BodyMesh.propTypes = {
-  type: _.any.isRequired,
-  dim: _.any.isRequired,
   name: _.string.isRequired,
+  type: _.any,
+  dim: _.any,
   dynamic: _.bool,
   visible: _.bool
 }

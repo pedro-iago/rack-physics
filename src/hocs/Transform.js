@@ -35,9 +35,9 @@ const Transform = Wrapped => {
           ref = { (inst) => {if(inst) inst.userData.rack = userData} }
           name = { id }
         >
-          { /*if inst on the ref here allows for the user data to only be unsync with any changes of it after mounting! The problem is react-three-renderer ref is null after mounting!*/}
-          { children || <Wrapped {...this.props} {...state[id]}/> }
-          { /*why children can't be side by side with Wrapped? That could be useful for controllers, so that their id is the Body namespace*/ }
+          { /*inst may be null on ref: The problem is react-three-renderer ref is null after mounting!*/}
+          { children }
+          <Wrapped {...this.props} {...state[id]}/>
         </object3D> );
     };
   }
