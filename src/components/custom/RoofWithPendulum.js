@@ -8,7 +8,7 @@ const RoofWithPendulum = (props) =>
     {...props}
   >
     <Body
-      pos = {{x: -300}}
+      pos = {{x: -250}}
       name = "pei"
     >
       <Body

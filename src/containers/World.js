@@ -1,18 +1,11 @@
 import React, { PropTypes as _ } from 'react';
 import { compose } from 'redux';
 import { Provide, Root, Namespace, Worker, Transform } from '../hocs';
-import Body from '../containers/Body';
-import { Oimo as Physics } from '../workers';
+import { WorldMesh } from '../components/core';
+import { OimoCmd as PhysicsSim } from '../workers';
 import { BRUTE, SWEEP, TREE } from '../Macros';
 
-const Controller = Worker(Physics)(Body);
-const World = compose(Provide, Root)(
-  ( props ) =>
-    <Body {...props}>
-      {props.children}
-      <Controller/>
-    </Body>
-);
+const World = compose(Provide, Root, Namespace, Worker(PhysicsSim), Transform)(WorldMesh);
 
 World.propTypes = {
   G: _.number,

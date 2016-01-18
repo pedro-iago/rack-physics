@@ -2,7 +2,7 @@
   "name": "oimo-rack",
   "version": "1.0.0",
   "description": "RACK (Robotics Automated Control Kickoff) is a sharing platform running a live 3D physics engine (oimo)",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "build": "webpack --watch",
@@ -41,7 +41,6 @@
     "babel-plugin-array-includes": "^2.0.2",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-0": "^6.3.13",
     "babel-root-import": "^3.1.0",
     "babel-runtime": "^6.3.19",
@@ -50,7 +49,7 @@
     "react-hot-loader": "^1.3.0",
     "socket.io": "^1.3.7",
     "webpack": "^1.12.3",
-    "webpack-dev-server": "^1.14.1",
+    "webpack-dev-server": "^1.12.1",
     "worker-loader": "^0.7.0"
   }
 }
