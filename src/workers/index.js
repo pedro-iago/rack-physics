@@ -1,2 +1,2 @@
-export OimoCmd from "./OimoCmd.thread";
-export CannonCmd from "./CannonCmd.thread";
+export Oimo from "./Oimo.thread";
+export Cannon from "./Cannon.thread";

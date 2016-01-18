@@ -5,5 +5,10 @@
       "rootPathSuffix": "src"
     }],
     "babel-plugin-array-includes"
-  ]
+  ],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    }
+  }
 }

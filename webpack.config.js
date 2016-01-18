@@ -12,10 +12,12 @@ module.exports = getConfig({
 
   html: false,
 
+  https: true,
+
   // This will destroy and re-create your
   // `out` folder before building so you always
   // get a fresh folder. Usually you want this
   // but since it's destructive we make it
   // false by default
-  clearBeforeBuild: false
+  clearBeforeBuild: true
 });
